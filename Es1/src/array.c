@@ -18,7 +18,8 @@ Array* Array_new(void* array, int length, int elemSize)
   }
   a->length = length;
   a->elemSize = elemSize;
-  a->compare = compare;
+
+  return a;
 }
 
 void* Array_get(Array* a, int i)
@@ -29,6 +30,11 @@ void* Array_get(Array* a, int i)
 void Array_set(Array* a, int i, void* elem)
 {
   a->array[i] = elem;
+}
+
+int Array_length(Array* a)
+{
+  return a->length;
 }
 
 void Array_free(Array* a)
