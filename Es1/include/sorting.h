@@ -9,3 +9,5 @@
 typedef int (*compare_fun)(void*, void*) ;
 
 Array* quick_sort(Array* a, int startIndex, int endIndex, compare_fun compare);
+
+Array* insertion_sort(Array* a, int ln, compare_fun compare);

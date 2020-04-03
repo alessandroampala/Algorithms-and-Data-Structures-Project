@@ -39,3 +39,24 @@ Array* quick_sort(Array* a, int startIndex, int endIndex, compare_fun compare)
 
   return a;
 }
+
+Array* insertion_sort(Array* a, int ln, compare_fun compare)
+{
+  for(int i = 1; i < ln; i++)
+  {
+    int j = i - 1;
+    while(j >= 0 && compare(Array_get(a, j-1), Array_get(a, j)) > 0){
+      swap(a, j+1, j);
+      j = j-1;
+    }
+  }
+  return a;
+}
+
+void swap(Array* a, int i, int j)
+{
+  void* tmp = *(Array_get(a, i));
+  free(a[i]);
+  Array_set(a, i, Array_get(j));
+  Array_set(a, j, tmp);
+}
