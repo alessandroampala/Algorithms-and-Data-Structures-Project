@@ -1,6 +1,13 @@
 #include "array.h"
 #include "sorting.h"
 
+void swap(Array* a, int i, int j)
+{
+  void* tmp = Array_get(a, i);
+  Array_set(a, i, Array_get(a, j));
+  Array_set(a, j, tmp);
+}
+
 int partition(Array* a, int startIndex, int endIndex, compare_fun compare)
 {
   int i = startIndex + 1;
@@ -12,9 +19,7 @@ int partition(Array* a, int startIndex, int endIndex, compare_fun compare)
     else if(compare(Array_get(a, j), Array_get(a, startIndex)) > 0) j--;
     else
     {
-      void* tmp = Array_get(a, i);
-      Array_set(a, i, Array_get(a, j));
-      Array_set(a, j, tmp);
+      swap(a, i, j);
       i++;
       j--;
     }
@@ -44,19 +49,12 @@ Array* insertion_sort(Array* a, int ln, compare_fun compare)
 {
   for(int i = 1; i < ln; i++)
   {
-    int j = i - 1;
-    while(j >= 0 && compare(Array_get(a, j-1), Array_get(a, j)) > 0){
+    int j = i;
+    while(j >= 1 && compare(Array_get(a, j-1), Array_get(a, j)) > 0){
       swap(a, j+1, j);
-      j = j-1;
+      j--;
     }
   }
   return a;
 }
 
-void swap(Array* a, int i, int j)
-{
-  void* tmp = *(Array_get(a, i));
-  free(a[i]);
-  Array_set(a, i, Array_get(j));
-  Array_set(a, j, tmp);
-}
