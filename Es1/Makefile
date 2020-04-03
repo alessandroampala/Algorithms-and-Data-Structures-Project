@@ -2,7 +2,7 @@ CC = gcc
 
 CFLAGS = -Wall -I include
 
-all: build/array.o build/sorting.o
+all: build/array.o build/sorting.o bin/sorting_app
 
 
 clean:
@@ -17,3 +17,6 @@ build/array.o: src/array.c include/array.h
 build/sorting.o: src/sorting.c include/sorting.h
 	$(CC) $(CFLAGS) -c src/sorting.c -o build/sorting.o
 
+bin/sorting_app: app/sorting_app.c build/array.o build/sorting.o
+	mkdir -p build
+	$(CC) $(CFLAGS) app/sorting_app.c  build/array.o build/sorting.o -o bin/sorting_app
