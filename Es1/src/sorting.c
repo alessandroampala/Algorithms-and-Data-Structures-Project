@@ -46,16 +46,16 @@ Array* _quick_sort(Array* a, int startIndex, int endIndex, compare_fun compare)
   return a;
 }
 
-Array* quick_sort(void* array, int length, int elemSize, compare_fun compare)
+Array* quick_sort(Array* a, compare_fun compare)
 {
-  if(array == NULL) return NULL;
-  
-  Array* a = Array_new(array, length, elemSize);
-  return _quick_sort(a, 0, length, compare);
+  if(a == NULL) return NULL;
+  return _quick_sort(a, 0, Array_length(a), compare);
 }
 
-Array* insertion_sort(Array* a, int ln, compare_fun compare)
+Array* insertion_sort(Array* a, compare_fun compare)
 {
+  int ln = Array_length(a);
+
   for(int i = 1; i < ln; i++)
   {
     int j = i;
