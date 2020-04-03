@@ -20,3 +20,4 @@ typedef int (*compare_fun)(void*, void*) ;
  * @return          Returns the sorted Array
  */
 Array* quick_sort(void* array, int length, int elemSize, compare_fun compare);
+Array* insertion_sort(Array* a, int ln, compare_fun compare);
