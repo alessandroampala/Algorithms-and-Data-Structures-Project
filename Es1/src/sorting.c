@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "array.h"
 #include "sorting.h"
 
@@ -26,16 +27,24 @@ int partition(Array* a, int startIndex, int endIndex, compare_fun compare)
   return j;
 }
 
-Array* quick_sort(Array* a, int startIndex, int endIndex, compare_fun compare)
+Array* _quick_sort(Array* a, int startIndex, int endIndex, compare_fun compare)
 {
   if(startIndex <= endIndex)
   {
     int p = partition(a, startIndex, endIndex, compare);
     if(p > 1 && startIndex < p) //if there are at least 2 elements before pivot
-      quick_sort(a, startIndex, p, compare);
+      _quick_sort(a, startIndex, p, compare);
     if(p < endIndex - 2) //if there are at least 2 elements after pivot
-      quick_sort(a, p + 1, endIndex, compare);
+      _quick_sort(a, p + 1, endIndex, compare);
   }
 
   return a;
+}
+
+Array* quick_sort(void* array, int length, int elemSize, compare_fun compare)
+{
+  if(array == NULL) return NULL;
+  
+  Array* a = Array_new(array, length, elemSize);
+  return _quick_sort(a, 0, length, compare);
 }
