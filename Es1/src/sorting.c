@@ -54,14 +54,16 @@ Array* quick_sort(Array* a, compare_fun compare)
 
 Array* insertion_sort(Array* a, compare_fun compare)
 {
-  int ln = Array_length(a);
+  if(a != NULL){
+    int ln = Array_length(a);
 
-  for(int i = 1; i < ln; i++)
-  {
-    int j = i;
-    while(j >= 1 && compare(Array_get(a, j-1), Array_get(a, j)) > 0){
-      swap(a, j+1, j);
-      j--;
+    for(int i = 1; i < ln; i++)
+    {
+      int j = i;
+      while(j >= 1 && compare(Array_get(a, j-1), Array_get(a, j)) > 0){
+        swap(a, j-1, j);
+        j--;
+      }
     }
   }
   return a;
