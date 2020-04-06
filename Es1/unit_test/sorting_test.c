@@ -73,20 +73,63 @@ void create_obj_test()
 	
 }
 
-void swapping_test(){
+void swapping_test()
+{
+	Array* array_test = create_obj();
+	
+	swap(array_test, 2, 4);
 
+	TEST_ASSERT_EQUAL_INT(5, *(int*)Array_get(array_test, 0));
+	TEST_ASSERT_EQUAL_INT(11, *(int*)Array_get(array_test, 1));
+	TEST_ASSERT_EQUAL_INT(15, *(int*)Array_get(array_test, 2));
+	TEST_ASSERT_EQUAL_INT(18, *(int*)Array_get(array_test, 3));
+	TEST_ASSERT_EQUAL_INT(3, *(int*)Array_get(array_test, 4));
+	TEST_ASSERT_EQUAL_INT(0, *(int*)Array_get(array_test, 5));
+	
+	delete_test_obj(array_test);	
 	
 }
 
-void insertion_sort_test();
+void insertion_sort_test()
+{
+	Array* array_test = create_obj();
+	
+	insertion_sort(array_test, compare_int);
 
-void quick_sort_test();
+	TEST_ASSERT_EQUAL_INT(0, *(int*)Array_get(array_test, 0));
+	TEST_ASSERT_EQUAL_INT(3, *(int*)Array_get(array_test, 1));
+	TEST_ASSERT_EQUAL_INT(5, *(int*)Array_get(array_test, 2));
+	TEST_ASSERT_EQUAL_INT(11, *(int*)Array_get(array_test, 3));
+	TEST_ASSERT_EQUAL_INT(15, *(int*)Array_get(array_test, 4));
+	TEST_ASSERT_EQUAL_INT(18, *(int*)Array_get(array_test, 5));
+	
+	delete_test_obj(array_test);	
+}
+
+void quick_sort_test()
+{
+	Array* array_test = create_obj();
+	
+	quick_sort(array_test, compare_int);
+
+	TEST_ASSERT_EQUAL_INT(0, *(int*)Array_get(array_test, 0));
+	TEST_ASSERT_EQUAL_INT(3, *(int*)Array_get(array_test, 1));
+	TEST_ASSERT_EQUAL_INT(5, *(int*)Array_get(array_test, 2));
+	TEST_ASSERT_EQUAL_INT(11, *(int*)Array_get(array_test, 3));
+	TEST_ASSERT_EQUAL_INT(15, *(int*)Array_get(array_test, 4));
+	TEST_ASSERT_EQUAL_INT(18, *(int*)Array_get(array_test, 5));
+	
+	delete_test_obj(array_test);	
+}
 
 int main()
 {
   UNITY_BEGIN();
 
 	RUN_TEST(create_obj_test);
+	RUN_TEST(swapping_test);
+	RUN_TEST(insertion_sort_test);
+	RUN_TEST(quick_sort_test);
 
   UNITY_END();
 	return 0;
