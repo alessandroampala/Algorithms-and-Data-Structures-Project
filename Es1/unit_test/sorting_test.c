@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "unity.h"
 #include "array.h"
 #include "sorting.h"
@@ -27,40 +28,43 @@ Array* create_obj_empty()
 
 Array* create_obj_lengthOne()
 {
-	int a[] = {13};
-	Array * b = Array_new(a, 1, sizeof(int));
-		stamp(b);
-	return b;
+	int * a = malloc(sizeof(int));
+	a[0] = 13;
+	return Array_new(a, 1, sizeof(int));
 }
 
 Array* create_obj()
 {
-	int array_test[] = {11, 2, 5, 3, 0};
-	Array* a = Array_new(array_test, 5, sizeof(int));
-		stamp(a);
-	return a;	
+	int * array_test = malloc(sizeof(int) * 6);
+	*(array_test) = 5;
+	*(array_test + 1) = 11;
+	*(array_test +2) = 3;
+	*(array_test + 3) = 18;
+	*(array_test + 4) = 15;
+	*(array_test + 5) = 0; 	
+	return Array_new(array_test, 6, sizeof(int));	
 }
 
 void delete_test_obj(Array* a)
 {
-		Array_free(a);
+	Array_free(a);
 }
 
 void create_obj_test()
 {
-
-	Array* array_test = create_obj();
-		stamp(array_test);
-	TEST_ASSERT_EQUAL_INT(11, *(int*)Array_get(array_test, 0));
-		stamp(array_test);
-	TEST_ASSERT_EQUAL_INT(2, *(int*)Array_get(array_test, 1));
-	TEST_ASSERT_EQUAL_INT(5, *(int*)Array_get(array_test, 2));
-	TEST_ASSERT_EQUAL_INT(3, *(int*)Array_get(array_test, 3));
-	TEST_ASSERT_EQUAL_INT(0, *(int*)Array_get(array_test, 4));
+	Array* array_test = create_obj_empty();
+	TEST_ASSERT_NULL((int*)Array_get(array_test, 0));
+	
 	delete_test_obj(array_test);
 
-	array_test = create_obj_empty();
-	TEST_ASSERT_NULL((int*)Array_get(array_test, 0));
+	array_test = create_obj();
+	TEST_ASSERT_EQUAL_INT(5, *(int*)Array_get(array_test, 0));
+	TEST_ASSERT_EQUAL_INT(11, *(int*)Array_get(array_test, 1));
+	TEST_ASSERT_EQUAL_INT(3, *(int*)Array_get(array_test, 2));
+	TEST_ASSERT_EQUAL_INT(18, *(int*)Array_get(array_test, 3));
+	TEST_ASSERT_EQUAL_INT(15, *(int*)Array_get(array_test, 4));
+	TEST_ASSERT_EQUAL_INT(0, *(int*)Array_get(array_test, 5));
+	
 	delete_test_obj(array_test);
 
 	array_test = create_obj_lengthOne();
@@ -69,7 +73,10 @@ void create_obj_test()
 	
 }
 
-void swapping_test();
+void swapping_test(){
+
+	
+}
 
 void insertion_sort_test();
 
