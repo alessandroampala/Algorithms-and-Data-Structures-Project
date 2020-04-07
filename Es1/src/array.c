@@ -41,6 +41,13 @@ int Array_length(Array* a)
   return a->length;
 }
 
+void Array_swap(Array* a, int i, int j)
+{
+  void* tmp = Array_get(a, i);
+  Array_set(a, i, Array_get(a, j));
+  Array_set(a, j, tmp);
+}
+
 void Array_free(Array* a)
 {
   if(a == NULL) return;

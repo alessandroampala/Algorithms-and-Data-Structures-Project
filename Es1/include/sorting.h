@@ -25,8 +25,3 @@ Array* quick_sort(Array* a, compare_fun compare);
  * @return         Returns the sorted Array
  */
 Array* insertion_sort(Array* a, compare_fun compare);
-
-/**
- * Swap two elements in the array
- */
-void swap(Array* a, int i, int j);

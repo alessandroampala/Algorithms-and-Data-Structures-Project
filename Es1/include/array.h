@@ -30,6 +30,11 @@ void Array_set(Array* a, int i, void* elem);
 int Array_length(Array* a);
 
 /**
+ * Swap two elements in the array
+ */
+void Array_swap(Array* a, int i, int j);
+
+/**
  * Free the allocated memory
  * (it does not free the memory of the objects
  *  in the array)
