@@ -14,13 +14,15 @@ typedef struct _Array Array;
 Array* Array_new(void* array, int length, int elemSize);
 
 /**
- * Returns a void* pointer to the element
+ * Returns a void* pointer to the element.
+ * If i >= Array_length(a), NULL is returned.
  */
 void* Array_get(Array* a, int i);
 
 /**
  * Set the element in i position to the element
- * pointed to elem
+ * pointed to elem.
+ * If i >= Array_length(a), nothing will happen.
  */
 void Array_set(Array* a, int i, void* elem);
 
@@ -30,7 +32,8 @@ void Array_set(Array* a, int i, void* elem);
 int Array_length(Array* a);
 
 /**
- * Swap two elements in the array
+ * Swap two elements in the array.
+ * If indexes are >= Array_length(a), nothing will happen.
  */
 void Array_swap(Array* a, int i, int j);
 

@@ -10,7 +10,7 @@ struct _Array
 
 Array* Array_new(void* array, int length, int elemSize)
 {
-  if(array == NULL) return NULL;
+  if(array == NULL || !length) return NULL;
   Array* a = malloc(sizeof(Array));
   a->array = malloc(sizeof(void*) * length);
   for(int i = 0; i < length; i++)
@@ -25,13 +25,13 @@ Array* Array_new(void* array, int length, int elemSize)
 
 void* Array_get(Array* a, int i)
 {
-  if(a == NULL) return NULL;
+  if(a == NULL || i < 0 || i >= length) return NULL;
   return a->array[i];
 }
 
 void Array_set(Array* a, int i, void* elem)
 {
-  if(a != NULL)
+  if(a != NULL || i < 0 || i >= length)
     a->array[i] = elem;
 }
 
@@ -43,6 +43,7 @@ int Array_length(Array* a)
 
 void Array_swap(Array* a, int i, int j)
 {
+  if(a == NULL || i >= a->length || j >= a->length) return;
   void* tmp = Array_get(a, i);
   Array_set(a, i, Array_get(a, j));
   Array_set(a, j, tmp);
