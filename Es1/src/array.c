@@ -25,13 +25,13 @@ Array* Array_new(void* array, int length, int elemSize)
 
 void* Array_get(Array* a, int i)
 {
-  if(a == NULL || i < 0 || i >= length) return NULL;
+  if(a == NULL || i < 0 || i >= Array_length(a)) return NULL;
   return a->array[i];
 }
 
 void Array_set(Array* a, int i, void* elem)
 {
-  if(a != NULL || i < 0 || i >= length)
+  if(a != NULL || i < 0 || i >= Array_length(a))
     a->array[i] = elem;
 }
 

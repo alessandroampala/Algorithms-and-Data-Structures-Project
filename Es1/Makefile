@@ -2,7 +2,7 @@ CC = gcc
 
 CFLAGS = -Wall -I include -I Resources/C/Unity/
 
-all: build/array.o build/sorting.o bin/sorting_app unit_test/sorting_test
+all: build/array.o build/sorting.o bin/sorting_app test/sorting_test
 
 
 clean:
@@ -21,8 +21,8 @@ bin/sorting_app: app/sorting_app.c include/array.h build/array.o include/sorting
 	mkdir -p bin
 	$(CC) $(CFLAGS) app/sorting_app.c  build/array.o build/sorting.o -o bin/sorting_app
 
-unit_test/sorting_test: unit_test/sorting_test.c build/array.o include/array.h build/sorting.o include/sorting.h
-	$(CC) $(CFLAGS) unit_test/sorting_test.c build/array.o build/sorting.o Resources/C/Unity/unity.c -o bin/sorting_test
+test/sorting_test: test/sorting_test.c build/array.o include/array.h build/sorting.o include/sorting.h
+	$(CC) $(CFLAGS) test/sorting_test.c build/array.o build/sorting.o Resources/C/Unity/unity.c -o bin/sorting_test
 
 test: all
 	./bin/sorting_test
