@@ -3,7 +3,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-#include "array.h"
 #include "sorting.h"
 
 typedef struct Record{
@@ -137,10 +136,8 @@ RecordArray load_data(char const* filename)
 void free_elements(RecordArray* a)
 {
   for(int i = 0; i < a->length; i++)
-  {
     free(a->array[i].field1);
-    free(&(a->array[i]));
-  }
+  free(a->array);
 }
 
 void update_time(time_t* rawtime, struct tm ** timeinfo)
@@ -166,7 +163,12 @@ int main(int argc, char* const *argv)
   else
     wrong_options();
 
-  Array* a = Array_new(ra.array, ra.length, sizeof(Record));
+  //create array of pointers
+  void** ap = malloc(sizeof(void*) * ra.length);
+  for(int i = 0; i < ra.length; i++)
+  {
+    ap[i] = &ra.array[i];
+  }
 
   time_t rawtime;
   struct tm * timeinfo;
@@ -176,17 +178,17 @@ int main(int argc, char* const *argv)
   {
     case 'q':
       printf("Starting Quicksort on field%d\t%s", field, asctime(timeinfo));
-      quick_sort(a, compare[field - 1]);
+      quick_sort(ap, ra.length, sizeof(Record), compare[field - 1]);
       break;
     case 'i':
       printf("Starting Insertion sort on field%d\t%s", field, asctime(timeinfo));
-      insertion_sort(a, compare[field - 1]);
+      insertion_sort(ap, ra.length, sizeof(Record), compare[field - 1]);
       break;
   }
 
   update_time(&rawtime, &timeinfo);
   printf("Successfully terminated\t\t%s", asctime(timeinfo));
 
+  free(ap);
   free_elements(&ra);
-  Array_free(a);
 }
