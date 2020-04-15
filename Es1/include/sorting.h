@@ -7,21 +7,24 @@
  *    if they are equal, and it returns a value larger than 0 
  *    if the first object is larger than the second.
  */
-typedef int (*compare_fun)(void*, void*) ;
+typedef int (*compare_fun)(void*, void*);
 
 /**
  * Sort an Array using Quicksort algotithm.
  * 
- * @param  a       A pointer to the Array to sort
- * @param  compare Function of type compare_fun
- * @return         Returns the sorted Array
+ * @param a       An array of pointers to the elemets to sort
+ * @param length  Length of the array
+ * @param size    Size of each element pointed
+ * @param compare Function of type compare_fun
  */
-Array* quick_sort(Array* a, compare_fun compare);
+void quick_sort(void** a, int length, size_t size, compare_fun compare);
 
 /**
  * Sort an Array using InserionSort algorithm.
- * @param  a       A pointer to the Array to sort
- * @param  compare Function of type compare_fun
- * @return         Returns the sorted Array
+ * 
+ * @param a       An array of pointers to the elemets to sort
+ * @param length  Length of the array
+ * @param size    Size of each element pointed
+ * @param compare Function of type compare_fun
  */
-Array* insertion_sort(Array* a, compare_fun compare);
+void insertion_sort(void** a, int length, size_t size, compare_fun compare);
