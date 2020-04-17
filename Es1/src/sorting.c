@@ -35,8 +35,8 @@ int partition(void** a, int startIndex, int endIndex, size_t size, compare_fun c
 
   while(i <= j)
   {
-    if(!(compare(a[i], a[startIndex]) > 0)) i++;
-    else if(compare(a[j], a[startIndex]) > 0) j--;
+    if(compare(a[i], a[startIndex]) < 0) i++; // a[i] <= a[startIndex]
+    else if(compare(a[j], a[startIndex]) > 0) j--; //a[j] > a[startIndex]
     else
     {
       swap(a[i], a[j], size);
@@ -87,7 +87,6 @@ void quick_sort(void** a, int length, size_t size, compare_fun compare)
 //     ap[i] = &a[i];
 //     printf("%d\n", a[i]);
 //   }
-
 
 //   quick_sort(ap, 4, sizeof(int), (compare_fun) compare_int);
 
