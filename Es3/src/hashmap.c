@@ -1,18 +1,19 @@
 #include <stdlib.h>
+#include <string.h>
 #include "hashmap.h"
 
 /**
  * TODO:
  * [X] Creazione HashMap
  * [X] bool Empty
- * [] bool verifica se la chiave specificata è presente
- * [---] inserimento di una nuova associazione <K,V>
+ * [X] bool verifica se la chiave specificata è presente
+ * [X] inserimento di una nuova associazione <K,V>
  * [X] int Numero associazioni presenti
- * [] void cancellazione tutte le associazioni
- * [] ricerca valore tramite chiave
- * [] cancellazione di un associazione tramite chiave
- * [] recupero insieme di chiavi presenti
- * [] Distruzione
+ * [X] void cancellazione tutte le associazioni
+ * [X] ricerca valore tramite chiave
+ * [X] cancellazione di un associazione tramite chiave
+ * [X] recupero insieme di chiavi presenti
+ * [X] Distruzione
  */
 
 #define INITIAL_CAPACITY 32
@@ -34,6 +35,7 @@ typedef struct HashMap
   int capacity;
   float load_factor;
   int threshold;
+  int key_size;
 } HashMap;
 
 int threshold(int capacity, float load_factor)
@@ -47,10 +49,11 @@ HashMapElement* HashMapElement_create(void* key, void* value, int hash, HashMapE
   e->key = key;
   e->value = value;
   e->hash = hash;
+  e->next = next;
   return e;
 }
 
-HashMap* HashMap_create(int initial_capacity, float load_factor, hashing_fun fun)
+HashMap* HashMap_create(int initial_capacity, float load_factor, int key_size, hashing_fun fun)
 {
   HashMap* hm = malloc(sizeof(HashMap));
   hm->fun = fun;
@@ -61,6 +64,7 @@ HashMap* HashMap_create(int initial_capacity, float load_factor, hashing_fun fun
   hm->load_factor = (load_factor > 0 && load_factor < 1) ? load_factor : DEFAULT_LOAD_FACTOR;
   hm->threshold = threshold(hm->capacity, hm->load_factor);
   hm->size = 0;
+  hm->key_size = key_size;
   return hm;
 }
 
@@ -96,9 +100,10 @@ void HashMap_resize(HashMap* hm)
   hm->threshold = threshold(hm->capacity, hm->load_factor);
 }
 
-void HashMap_insert(HashMap* hm, void* key, void* value)
+int HashMap_insert(HashMap* hm, void* key, void* value)
 {
-  //CONTROLLARE SE LA CHIAVE NON ESISTE ANCORA!!!!
+  if(HashMap_key_is_present(hm, key))
+    return 0;
 
   if(hm->size + 1 > hm->threshold)
     HashMap_resize(hm);
@@ -106,9 +111,110 @@ void HashMap_insert(HashMap* hm, void* key, void* value)
   int hash = hm->fun(key);
   hm->elements[hash % hm->capacity] = HashMapElement_create(key, value, hash, hm->elements[hash % hm->capacity]);
   hm->size++;
+  return 1;
 }
 
-int HashMap_associations_number(HashMap* hm)
+int HashMap_elements_number(HashMap* hm)
 {
   return hm->size;
 }
+
+int HashMap_key_is_present(HashMap* hm, void* key)
+{
+  HashMapElement* e = hm->elements[hm->fun(key) % hm->capacity];
+  while(e != NULL)
+  {
+    if(memcmp(e->key, key, hm->key_size) == 0)
+      return 1;
+    e = e->next;
+  }
+  return 0;
+}
+
+void HashMap_delete_elements(HashMap* hm)
+{
+  for (int i = 0; i < hm->capacity; ++i)
+  {
+    HashMapElement* e;
+    while((e = hm->elements[i]) != NULL)
+    {
+      hm->elements[i] = hm->elements[i]->next;
+      free(e);
+    }
+  }
+  hm->size = 0;
+}
+
+void* HashMap_get(HashMap* hm, void* key)
+{
+  HashMapElement* e = hm->elements[hm->fun(key) % hm->capacity];
+  while(e != NULL)
+  {
+    if(memcmp(e->key, key, hm->key_size) == 0)
+      return e->value;
+    e = e->next;
+  }
+  return NULL;
+}
+
+void* HashMap_delete(HashMap* hm, void* key)
+{
+  int index = hm->fun(key) % hm->capacity;
+  HashMapElement* e = hm->elements[index];
+  void* ret;
+
+  if(e != NULL)
+  {
+    if(memcmp(e->key, key, hm->key_size) == 0)
+    {
+      hm->elements[index] = e->next;
+      ret = e->value;
+      free(e);
+      hm->size--;
+      return ret;
+    }
+    else
+    {
+      HashMapElement* prev = e;
+      e = e->next;
+      while(e != NULL)
+      {
+        if(memcmp(e->key, key, hm->key_size) == 0)
+        {
+          prev->next = e->next;
+          ret = e->value;
+          free(e);
+          hm->size--;
+          return ret;
+        }
+        prev = e;
+        e = e->next;
+      }
+    }
+  }
+  return NULL;
+}
+
+void** HashMap_key_set(HashMap* hm)
+{
+  void** a = malloc(sizeof(void*) * hm->size);
+  int index = 0;
+  for (int i = 0; i < hm->size; ++i)
+  {
+    HashMapElement* e = hm->elements[i];
+    while(e != NULL)
+    {
+      a[index] = e->key;
+      e = e->next;
+    }
+  }
+  return a;
+}
+
+void HashMap_destroy(HashMap* hm)
+{
+  HashMap_delete_elements(hm);
+  free(hm->elements);
+  free(hm);
+}
+
