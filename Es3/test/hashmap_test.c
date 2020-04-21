@@ -54,7 +54,6 @@ void elements_number_test()
 void key_is_present_test()
 {
   HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
-  TEST_ASSERT_EQUAL_INT(0, HashMap_elements_number(map));
   void* key = new_int(5);
   void* value = new_int(6);
   void* key2 = new_int(10);
@@ -78,7 +77,6 @@ void key_is_present_test()
 void delete_elements_test()
 {
   HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
-  TEST_ASSERT_EQUAL_INT(0, HashMap_elements_number(map));
   void* key = new_int(5);
   void* value = new_int(6);
   void* key2 = new_int(10);
@@ -97,7 +95,72 @@ void delete_elements_test()
 
 void get_test()
 {
-  
+  HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
+  void* key = new_int(5);
+  void* value = new_int(6);
+  void* key2 = new_int(10);
+  void* value2 = new_int(15);
+  HashMap_insert(map, key, value);
+  HashMap_insert(map, key2, value2);
+
+  TEST_ASSERT_EQUAL_INT(6, *(int*) HashMap_get(map, key));
+  TEST_ASSERT_EQUAL_INT(15, *(int*) HashMap_get(map, key2));
+
+  HashMap_destroy(map);
+  free(key);
+  free(value);
+  free(key2);
+  free(value2);
+}
+
+void key_set_test()
+{
+  HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
+  void* key = new_int(5);
+  void* value = new_int(6);
+  void* key2 = new_int(10);
+  void* value2 = new_int(15);
+  HashMap_insert(map, key, value);
+  HashMap_insert(map, key2, value2);
+
+  void** keys = HashMap_key_set(map);
+  TEST_ASSERT(keys[0] == key);
+  TEST_ASSERT(keys[1] == key2);
+
+  free(keys);
+  HashMap_destroy(map);
+  free(key);
+  free(value);
+  free(key2);
+  free(value2);
+}
+
+void insert_delete_test()
+{
+  HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
+  void* key = new_int(5);
+  void* value = new_int(6);
+  void* key2 = new_int(10);
+  void* value2 = new_int(15);
+
+  HashMap_insert(map, key, value);
+  TEST_ASSERT_EQUAL_INT(1, HashMap_elements_number(map));
+  TEST_ASSERT_EQUAL_INT(6, *(int*) HashMap_get(map, key));
+  HashMap_insert(map, key2, value2);
+  TEST_ASSERT_EQUAL_INT(2, HashMap_elements_number(map));
+  TEST_ASSERT_EQUAL_INT(15, *(int*) HashMap_get(map, key2));
+  HashMap_delete(map, key);
+  TEST_ASSERT_EQUAL_INT(1, HashMap_elements_number(map));
+  TEST_ASSERT(NULL == HashMap_get(map, key));
+  HashMap_delete(map, key2);
+  TEST_ASSERT_EQUAL_INT(0, HashMap_elements_number(map));
+  TEST_ASSERT(NULL == HashMap_get(map, key2));
+
+  HashMap_destroy(map);
+  free(key);
+  free(value);
+  free(key2);
+  free(value2);
 }
 
 int main()
@@ -108,6 +171,9 @@ int main()
   RUN_TEST(elements_number_test);
   RUN_TEST(key_is_present_test);
   RUN_TEST(delete_elements_test);
+  RUN_TEST(get_test);
+  RUN_TEST(key_set_test);
+  RUN_TEST(insert_delete_test);
 
   UNITY_END();
 }
