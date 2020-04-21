@@ -18,3 +18,8 @@ void HashMap_delete_elements(HashMap* hm);
 void* HashMap_get(HashMap* hm, void* key);
 void** HashMap_key_set(HashMap* hm);
 void* HashMap_delete(HashMap* hm, void* key);
+void HashMap_destroy(HashMap* hm);
+
+
+
+void debug_HashMap_print(HashMap* hm);

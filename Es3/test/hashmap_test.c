@@ -1,0 +1,113 @@
+#include <stdlib.h>
+#include "unity.h"
+#include "hashmap.h"
+
+int hash(int* a)
+{
+  return *a;
+}
+
+int* new_int(int a)
+{
+  int* b = malloc(sizeof(int));
+  *b = a;
+  return b;
+}
+
+void empty_test()
+{
+  HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
+  TEST_ASSERT(HashMap_empty(map));
+  TEST_ASSERT(HashMap_elements_number(map) == 0);
+  void* key = new_int(5);
+  void* value = new_int(6);
+  HashMap_insert(map, key, value);
+  TEST_ASSERT(!HashMap_empty(map));
+  HashMap_delete(map, key);
+  TEST_ASSERT(HashMap_empty(map));
+
+  HashMap_destroy(map);
+  free(key);
+  free(value);
+}
+
+void elements_number_test()
+{
+  HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
+  TEST_ASSERT_EQUAL_INT(0, HashMap_elements_number(map));
+  void* key = new_int(5);
+  void* value = new_int(6);
+  void* key2 = new_int(10);
+  void* value2 = new_int(15);
+  HashMap_insert(map, key, value);
+  TEST_ASSERT_EQUAL_INT(1, HashMap_elements_number(map));
+  HashMap_insert(map, key2, value2);
+  TEST_ASSERT_EQUAL_INT(2, HashMap_elements_number(map));
+
+  HashMap_destroy(map);
+  free(key);
+  free(value);
+  free(key2);
+  free(value2);
+}
+
+void key_is_present_test()
+{
+  HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
+  TEST_ASSERT_EQUAL_INT(0, HashMap_elements_number(map));
+  void* key = new_int(5);
+  void* value = new_int(6);
+  void* key2 = new_int(10);
+  void* value2 = new_int(15);
+  HashMap_insert(map, key, value);
+  TEST_ASSERT(HashMap_key_is_present(map, key));
+  HashMap_insert(map, key2, value2);
+  TEST_ASSERT(HashMap_key_is_present(map, key2));
+  HashMap_delete(map, key);
+  TEST_ASSERT(!HashMap_key_is_present(map, key));
+  HashMap_delete(map, key2);
+  TEST_ASSERT(!HashMap_key_is_present(map, key2));
+
+  HashMap_destroy(map);
+  free(key);
+  free(value);
+  free(key2);
+  free(value2);
+}
+
+void delete_elements_test()
+{
+  HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
+  TEST_ASSERT_EQUAL_INT(0, HashMap_elements_number(map));
+  void* key = new_int(5);
+  void* value = new_int(6);
+  void* key2 = new_int(10);
+  void* value2 = new_int(15);
+  HashMap_insert(map, key, value);
+  HashMap_insert(map, key2, value2);
+  HashMap_delete_elements(map);
+  TEST_ASSERT_EQUAL_INT(0, HashMap_elements_number(map));
+
+  HashMap_destroy(map);
+  free(key);
+  free(value);
+  free(key2);
+  free(value2);
+}
+
+void get_test()
+{
+  
+}
+
+int main()
+{
+  UNITY_BEGIN();
+
+  RUN_TEST(empty_test);
+  RUN_TEST(elements_number_test);
+  RUN_TEST(key_is_present_test);
+  RUN_TEST(delete_elements_test);
+
+  UNITY_END();
+}
