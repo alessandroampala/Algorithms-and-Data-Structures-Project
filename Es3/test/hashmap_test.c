@@ -18,7 +18,7 @@ void empty_test()
 {
   HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
   TEST_ASSERT(HashMap_empty(map));
-  TEST_ASSERT(HashMap_elements_number(map) == 0);
+  TEST_ASSERT(HashMap_size(map) == 0);
   void* key = new_int(5);
   void* value = new_int(6);
   HashMap_insert(map, key, value);
@@ -34,15 +34,15 @@ void empty_test()
 void elements_number_test()
 {
   HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
-  TEST_ASSERT_EQUAL_INT(0, HashMap_elements_number(map));
+  TEST_ASSERT_EQUAL_INT(0, HashMap_size(map));
   void* key = new_int(5);
   void* value = new_int(6);
   void* key2 = new_int(10);
   void* value2 = new_int(15);
   HashMap_insert(map, key, value);
-  TEST_ASSERT_EQUAL_INT(1, HashMap_elements_number(map));
+  TEST_ASSERT_EQUAL_INT(1, HashMap_size(map));
   HashMap_insert(map, key2, value2);
-  TEST_ASSERT_EQUAL_INT(2, HashMap_elements_number(map));
+  TEST_ASSERT_EQUAL_INT(2, HashMap_size(map));
 
   HashMap_destroy(map);
   free(key);
@@ -51,7 +51,7 @@ void elements_number_test()
   free(value2);
 }
 
-void key_is_present_test()
+void key_exists_test()
 {
   HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
   void* key = new_int(5);
@@ -59,13 +59,13 @@ void key_is_present_test()
   void* key2 = new_int(10);
   void* value2 = new_int(15);
   HashMap_insert(map, key, value);
-  TEST_ASSERT(HashMap_key_is_present(map, key));
+  TEST_ASSERT(HashMap_key_exists(map, key));
   HashMap_insert(map, key2, value2);
-  TEST_ASSERT(HashMap_key_is_present(map, key2));
+  TEST_ASSERT(HashMap_key_exists(map, key2));
   HashMap_delete(map, key);
-  TEST_ASSERT(!HashMap_key_is_present(map, key));
+  TEST_ASSERT(!HashMap_key_exists(map, key));
   HashMap_delete(map, key2);
-  TEST_ASSERT(!HashMap_key_is_present(map, key2));
+  TEST_ASSERT(!HashMap_key_exists(map, key2));
 
   HashMap_destroy(map);
   free(key);
@@ -84,7 +84,7 @@ void delete_elements_test()
   HashMap_insert(map, key, value);
   HashMap_insert(map, key2, value2);
   HashMap_delete_elements(map);
-  TEST_ASSERT_EQUAL_INT(0, HashMap_elements_number(map));
+  TEST_ASSERT_EQUAL_INT(0, HashMap_size(map));
 
   HashMap_destroy(map);
   free(key);
@@ -144,16 +144,16 @@ void insert_delete_test()
   void* value2 = new_int(15);
 
   HashMap_insert(map, key, value);
-  TEST_ASSERT_EQUAL_INT(1, HashMap_elements_number(map));
+  TEST_ASSERT_EQUAL_INT(1, HashMap_size(map));
   TEST_ASSERT_EQUAL_INT(6, *(int*) HashMap_get(map, key));
   HashMap_insert(map, key2, value2);
-  TEST_ASSERT_EQUAL_INT(2, HashMap_elements_number(map));
+  TEST_ASSERT_EQUAL_INT(2, HashMap_size(map));
   TEST_ASSERT_EQUAL_INT(15, *(int*) HashMap_get(map, key2));
   HashMap_delete(map, key);
-  TEST_ASSERT_EQUAL_INT(1, HashMap_elements_number(map));
+  TEST_ASSERT_EQUAL_INT(1, HashMap_size(map));
   TEST_ASSERT(NULL == HashMap_get(map, key));
   HashMap_delete(map, key2);
-  TEST_ASSERT_EQUAL_INT(0, HashMap_elements_number(map));
+  TEST_ASSERT_EQUAL_INT(0, HashMap_size(map));
   TEST_ASSERT(NULL == HashMap_get(map, key2));
 
   HashMap_destroy(map);
@@ -169,7 +169,7 @@ int main()
 
   RUN_TEST(empty_test);
   RUN_TEST(elements_number_test);
-  RUN_TEST(key_is_present_test);
+  RUN_TEST(key_exists_test);
   RUN_TEST(delete_elements_test);
   RUN_TEST(get_test);
   RUN_TEST(key_set_test);

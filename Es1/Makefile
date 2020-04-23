@@ -17,7 +17,7 @@ bin/sorting_app: app/sorting_app.c include/sorting.h build/sorting.o
 	mkdir -p bin
 	$(CC) $(CFLAGS) app/sorting_app.c build/sorting.o -o bin/sorting_app
 
-test/sorting_test: test/sorting_test.c build/sorting.o include/sorting.h
+test/sorting_test: test/sorting_test.c include/sorting.h build/sorting.o
 	$(CC) $(CFLAGS) test/sorting_test.c build/sorting.o Resources/C/Unity/unity.c -o bin/sorting_test
 
 test: all

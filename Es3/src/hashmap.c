@@ -102,7 +102,7 @@ void HashMap_resize(HashMap* hm)
 
 int HashMap_insert(HashMap* hm, void* key, void* value)
 {
-  if(HashMap_key_is_present(hm, key))
+  if(HashMap_key_exists(hm, key))
     return 0;
 
   if(hm->size + 1 > hm->threshold)
@@ -114,12 +114,12 @@ int HashMap_insert(HashMap* hm, void* key, void* value)
   return 1;
 }
 
-int HashMap_elements_number(HashMap* hm)
+int HashMap_size(HashMap* hm)
 {
   return hm->size;
 }
 
-int HashMap_key_is_present(HashMap* hm, void* key)
+int HashMap_key_exists(HashMap* hm, void* key)
 {
   HashMapElement* e = hm->elements[hm->fun(key) % hm->capacity];
   while(e != NULL)
@@ -199,12 +199,12 @@ void** HashMap_key_set(HashMap* hm)
 {
   void** a = malloc(sizeof(void*) * hm->size);
   int index = 0;
-  for (int i = 0; i < hm->size; ++i)
+  for (int i = 0; i < hm->capacity; ++i)
   {
     HashMapElement* e = hm->elements[i];
     while(e != NULL)
     {
-      a[index] = e->key;
+      a[index++] = e->key;
       e = e->next;
     }
   }
