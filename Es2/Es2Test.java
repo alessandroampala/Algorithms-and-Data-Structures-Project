@@ -1,9 +1,9 @@
 /**
  * COMPILING: 
- * compile with javac -cp .;junit-4.13.jar;hamcrest-core-1.3.jar ED_test.java
+ * compile with javac -cp .;junit-4.13.jar;hamcrest-core-1.3.jar Es2Test.java
  *
  * RUNNING:
- * execute with java -cp .;junit-4.13.jar;hamcrest-core-1.3.jar org.junit.runner.JUnitCore ED_test
+ * execute with java -cp .;junit-4.13.jar;hamcrest-core-1.3.jar org.junit.runner.JUnitCore Es2Test
  * 
  * NB: assuming that junit-4.13.jar and hamcrest-core-1.3.jar are in the 
  * 		 current work folder
@@ -16,7 +16,7 @@ import javax.swing.text.Utilities;
 
 import org.junit.Test;
 
-public class EdTest{
+public class Es2Test{
 	public static void main(String[] args) 
 	{
 		testEditDistance();
@@ -33,6 +33,7 @@ public class EdTest{
 			System.out.println("Error: Invalid argument in createBaseCase");
 			System.exit(0);
 		}
+		return "";
 	}
 
 	public static String createNormalCase(int n)
@@ -50,23 +51,26 @@ public class EdTest{
 			System.out.println("Error: Invalid argument in createNormalCase");
 			System.exit(0);
 		}
+		return "";
 	}
 
 	
 	public static void testEditDistance()
 	{
-		baseEd();
-		normalCaseEd();
+		Es2Test obj = new Es2Test();
+		obj.baseEd();
+		obj.normalCaseEd();
 	}	
 	
 	public static void testEditDistanceDyn()
 	{
-		baseEdDyn();
-		normalCaseEdDyn();
+		Es2Test obj = new Es2Test();
+		obj.baseEdDyn();
+		obj.normalCaseEdDyn();
 	}
 	
 	@Test
-	public static void baseEd()
+	public void baseEd()
 	{
 		int result = -1;
 		String s1, s2;
@@ -92,7 +96,7 @@ public class EdTest{
 	}
 
 	@Test
-	public static void normalCaseEd()
+	public void normalCaseEd()
 	{			
 		int result = -1;
 		String s1, s2;
@@ -100,32 +104,31 @@ public class EdTest{
 		// a equals b
 		s1 = createNormalCase(0);
 		s2 = createNormalCase(0);
-		result = Es2Library.editDistanceDyn(s1,s2);
+		result = Es2Library.editDistance(s1,s2);
 		assertEquals(0, result);
 
 		// substring case
 		s1 = createNormalCase(1);
 		s2 = createNormalCase(2);
-		result = Es2Library.editDistanceDyn(s1,s2);
+		result = Es2Library.editDistance(s1,s2);
 		assertEquals(6,result);
 
 		// all different letters
 		s1 = createNormalCase(3);
 		s2 = createNormalCase(4);
-		result = Es2Library.editDistanceDyn(s1,s2);
+		result = Es2Library.editDistance(s1,s2);
 		assertEquals(10,result);
 
 		// normal case
 		s1 = createNormalCase(5);
 		s2 = createNormalCase(6);
-		result = Es2Library.editDistanceDyn(s1, s2);
+		result = Es2Library.editDistance(s1, s2);
 		assertEquals(15,result);
-
 
 	}
 
 	@Test
-	public static void baseCaseEdDyn()
+	public void baseEdDyn()
 	{
 		int result = -1;
 		String s1, s2;
@@ -148,10 +151,10 @@ public class EdTest{
 		result = Es2Library.editDistanceDyn(s1, s2);
 		assertEquals(1, result);
 
-		
 	}
 
-	public static void normalCaseEdDyn()
+	@Test
+	public void normalCaseEdDyn()
 	{
 		int result = -1;
 		String s1, s2;
