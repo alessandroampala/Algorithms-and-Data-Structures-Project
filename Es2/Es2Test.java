@@ -1,12 +1,11 @@
 /**
- * COMPILING: 
- * compile with javac -cp .;junit-4.13.jar;hamcrest-core-1.3.jar Es2Test.java
+ * COMPILING: compile with 
+ * javac -cp .;.\debug\junit-4.13.jar;.\debug\hamcrest-core-1.3.jar Es2Test.java
  *
- * RUNNING:
- * execute with java -cp .;junit-4.13.jar;hamcrest-core-1.3.jar org.junit.runner.JUnitCore Es2Test
+ * RUNNING: execute with 
+ * java -cp .;.\debug\junit-4.13.jar;.\debug\hamcrest-core-1.3.jar org.junit.runner.JUnitCore Es2Test
  * 
- * NB: assuming that junit-4.13.jar and hamcrest-core-1.3.jar are in the 
- * 		 current work folder
+ * NB: assuming that junit-4.13.jar and hamcrest-core-1.3.jar are in "debug" folder
  */
 
 
