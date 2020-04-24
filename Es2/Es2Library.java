@@ -3,7 +3,7 @@ public class Es2Library{
 	/*
 	 * return the minimum number between three numbers.
 	 */
-	public static int min(int obj1, int obj2, int obj3){
+	private static int min(int obj1, int obj2, int obj3){
 		int m = obj1;
 		if(m > obj2)
 			m = obj2;
@@ -53,7 +53,7 @@ public class Es2Library{
 	 * a previous call and, eventually, return immediately this value as result. This process
 	 * make the algorithm more efficient avoiding repetitive recursive calls.
 	 */
-	public static int dyEd(String s1, String s2, int[][] nopeTab, int[][] cancTab, int[][] insTab){
+	private static int dyEd(String s1, String s2, int[][] nopeTab, int[][] cancTab, int[][] insTab){
 		if(s1.length() == 0)
 			return s2.length();
 		else if(s2.length() == 0)
