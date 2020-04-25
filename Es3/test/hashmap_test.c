@@ -14,9 +14,14 @@ int* new_int(int a)
   return b;
 }
 
+int compare_ints(int* a, int* b)
+{
+  return *a - *b;
+}
+
 void empty_test()
 {
-  HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
+  HashMap* map = HashMap_create(0, 0, (hashing_fun) hash, (compare_fun) compare_ints);
   TEST_ASSERT(HashMap_empty(map));
   TEST_ASSERT(HashMap_size(map) == 0);
   void* key = new_int(5);
@@ -33,7 +38,7 @@ void empty_test()
 
 void elements_number_test()
 {
-  HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
+  HashMap* map = HashMap_create(0, 0, (hashing_fun) hash, (compare_fun) compare_ints);
   TEST_ASSERT_EQUAL_INT(0, HashMap_size(map));
   void* key = new_int(5);
   void* value = new_int(6);
@@ -53,7 +58,7 @@ void elements_number_test()
 
 void key_exists_test()
 {
-  HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
+  HashMap* map = HashMap_create(0, 0, (hashing_fun) hash, (compare_fun) compare_ints);
   void* key = new_int(5);
   void* value = new_int(6);
   void* key2 = new_int(10);
@@ -76,7 +81,7 @@ void key_exists_test()
 
 void delete_elements_test()
 {
-  HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
+  HashMap* map = HashMap_create(0, 0, (hashing_fun) hash, (compare_fun) compare_ints);
   void* key = new_int(5);
   void* value = new_int(6);
   void* key2 = new_int(10);
@@ -95,7 +100,7 @@ void delete_elements_test()
 
 void get_test()
 {
-  HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
+  HashMap* map = HashMap_create(0, 0, (hashing_fun) hash, (compare_fun) compare_ints);
   void* key = new_int(5);
   void* value = new_int(6);
   void* key2 = new_int(10);
@@ -115,7 +120,7 @@ void get_test()
 
 void key_set_test()
 {
-  HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
+  HashMap* map = HashMap_create(0, 0, (hashing_fun) hash, (compare_fun) compare_ints);
   void* key = new_int(5);
   void* value = new_int(6);
   void* key2 = new_int(10);
@@ -137,7 +142,7 @@ void key_set_test()
 
 void insert_delete_test()
 {
-  HashMap* map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
+  HashMap* map = HashMap_create(0, 0, (hashing_fun) hash, (compare_fun) compare_ints);
   void* key = new_int(5);
   void* value = new_int(6);
   void* key2 = new_int(10);

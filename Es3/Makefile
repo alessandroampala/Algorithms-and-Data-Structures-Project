@@ -2,7 +2,7 @@ CC = gcc
 
 CFLAGS = -ggdb -O0 -Wall -I include -I Resources/C/Unity/
 
-all: build/hashmap.o bin/hashmap_app test/hashmap_test prova/prova
+all: build/hashmap.o bin/hashmap_app test/hashmap_test
 
 
 clean:
@@ -19,9 +19,6 @@ bin/hashmap_app: app/hashmap_app.c include/hashmap.h build/hashmap.o
 test/hashmap_test: test/hashmap_test.c include/hashmap.h build/hashmap.o
 	mkdir -p bin
 	$(CC) $(CFLAGS) test/hashmap_test.c build/hashmap.o Resources/C/Unity/unity.c -o bin/test
-
-prova/prova: prova/prova.c include/hashmap.h build/hashmap.o
-	$(CC) $(CFLAGS) prova/prova.c build/hashmap.o -o prova/prova
 
 test: all
 	./bin/test

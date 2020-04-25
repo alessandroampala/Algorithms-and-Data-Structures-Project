@@ -12,11 +12,16 @@ int hash(int* a)
   return *a;
 }
 
-HashMap* load_data(char const* filename, Record* elements)
+int compare_ints(int* a, int* b)
+{
+  return *a - *b;
+}
+
+HashMap* load_data(char const* filename, Record** elements)
 {
   int key, value;
   int lineno = 0;
-  int size = 64;
+  int size = 7000000;
   HashMap* map;
 
   FILE* file = fopen(filename, "r");
@@ -26,13 +31,12 @@ HashMap* load_data(char const* filename, Record* elements)
     exit(EXIT_FAILURE);
   }
 
-  map = HashMap_create(0, 0, sizeof(int), (hashing_fun) hash);
-  elements = malloc(sizeof(Record) * size);
+  map = HashMap_create(0, 0, (hashing_fun) hash, (compare_fun) compare_ints);
+  *elements = malloc(sizeof(Record) * size);
 
   while(!feof(file))
   {
     int n = fscanf(file, "%d,%d\n", &key, &value);
-    //printf("%d\n", lineno);
     lineno++;
 
     if(n != 2)
@@ -46,12 +50,12 @@ HashMap* load_data(char const* filename, Record* elements)
     if(lineno == size)
     {
       size *= 2;
-      elements = realloc(elements, sizeof(Record) * size);
+      *elements = realloc(*elements, sizeof(Record) * size);
     }
 
-    elements[lineno - 1].key = key;
-    elements[lineno - 1].value = value;
-    HashMap_insert(map, &elements[lineno - 1].key, &elements[lineno - 1].value);
+    (*elements)[lineno - 1].key = key;
+    (*elements)[lineno - 1].value = value;
+    HashMap_insert(map, &((*elements)[lineno - 1].key), &((*elements)[lineno - 1].value));
   }
 
   fclose(file);
@@ -65,5 +69,7 @@ int main(int argc, char const *argv[])
 
   if(argc != 2)
     printf("Argument error\n");
-  map = load_data(argv[1], elements);
+  map = load_data(argv[1], &elements);
+  free(elements);
+  HashMap_destroy(map);
 }
