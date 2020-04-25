@@ -26,7 +26,7 @@ public class Es2Library{
 			if(s1.charAt(0) == s2.charAt(0))
 				dNope = editDistance(s1.substring(1), s2.substring(1));
 			else
-					dNope = Integer.MAX_VALUE;
+				dNope = Integer.MAX_VALUE;
 			dCanc = 1 + editDistance(s1,s2.substring(1));
 			dIns = 1 + editDistance(s1.substring(1), s2);	
 		}
@@ -42,7 +42,7 @@ public class Es2Library{
 	 */
 	public static int editDistanceDyn(String s1, String s2){
 		int[][] nopeTab = new int[s1.length() + 1][s2.length() + 1];
-		int[][] cancTab = new int[s2.length() + 1][s2.length() + 1];
+		int[][] cancTab = new int[s1.length() + 1][s2.length() + 1];
 		int[][] insTab = new int[s1.length() + 1][s2.length() + 1];		
 		return dyEd(s1, s2, nopeTab, cancTab, insTab);
 	}
@@ -59,23 +59,18 @@ public class Es2Library{
 		else if(s2.length() == 0)
 			return s1.length();
 		else{
-			if(nopeTab[s1.length()][s2.length()] == 0)
-			{
-				if(s1.charAt(0) == s2.charAt(0) )
+			if((nopeTab[s1.length()][s2.length()] == 0)){
+				if(s1.charAt(0) == s2.charAt(0))
 					nopeTab[s1.length()][s2.length()] = dyEd(s1.substring(1), s2.substring(1), nopeTab, cancTab, insTab);
 				else
-				{
 					nopeTab[s1.length()][s2.length()] = Integer.MAX_VALUE;
-					
-					if(cancTab[s2.length()][s2.length()] == 0)
-						cancTab[s2.length()][s2.length()] = 1 + dyEd(s1, s2.substring(1), nopeTab, cancTab, insTab);
-					if(insTab[s1.length()][s2.length()] == 0)
-						insTab[s1.length()][s2.length()] = 1 + dyEd(s1.substring(1), s2, nopeTab, cancTab, insTab);	
-				}
+			}
+			if(cancTab[s1.length()][s2.length()] == 0)
+				cancTab[s1.length()][s2.length()] = 1 + dyEd(s1, s2.substring(1), nopeTab, cancTab, insTab);
+			if(insTab[s1.length()][s2.length()] == 0)
+				insTab[s1.length()][s2.length()] = 1 + dyEd(s1.substring(1), s2, nopeTab, cancTab, insTab);	
 		}
-
-		return min(nopeTab[s1.length()][s2.length()], cancTab[s2.length()][s2.length()], insTab[s1.length()][s2.length()]);
-		}
+		return min(nopeTab[s1.length()][s2.length()], cancTab[s1.length()][s2.length()], insTab[s1.length()][s2.length()]);
 	}
 
 }
