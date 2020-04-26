@@ -13,8 +13,8 @@ build/hashmap.o: src/hashmap.c include/hashmap.h
 	mkdir -p build
 	$(CC) $(CFLAGS) -c src/hashmap.c -o build/hashmap.o
 
-bin/hashmap_app: app/hashmap_app.c include/hashmap.h build/hashmap.o
-	$(CC) $(CFLAGS) app/hashmap_app.c build/hashmap.o -o bin/app
+bin/hashmap_app: app/hashmap_app.c include/hashmap.h build/hashmap.o build/sorting.o
+	$(CC) $(CFLAGS) app/hashmap_app.c build/hashmap.o build/sorting.o -o bin/app
 
 test/hashmap_test: test/hashmap_test.c include/hashmap.h build/hashmap.o
 	mkdir -p bin
