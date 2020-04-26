@@ -35,7 +35,7 @@ int partition(void** a, int startIndex, int endIndex, size_t size, compare_fun c
 
   while(i <= j)
   {
-    if(compare(a[i], a[startIndex]) < 0) i++; // a[i] <= a[startIndex]
+    if(compare(a[i], a[startIndex]) < 0) i++; // a[i] < a[startIndex]
     else if(compare(a[j], a[startIndex]) > 0) j--; //a[j] > a[startIndex]
     else
     {
@@ -66,33 +66,3 @@ void quick_sort(void** a, int length, size_t size, compare_fun compare)
   if(a != NULL)
     _quick_sort(a, 0, length, size, compare);
 }
-
-// int compare_int(int* a, int* b)
-// {
-//   return *a-*b;
-// }
-
-// int main(int argc, char const *argv[])
-// {
-//   int* a = malloc(sizeof(int) * 4);
-//   a[0] = 5;
-//   a[1] = 4;
-//   a[2] = 6;
-//   a[3] = 1;
-
-//   void** ap = malloc(sizeof(void*) * 4);
-
-//   for(int i = 0; i < 4; i++)
-//   {
-//     ap[i] = &a[i];
-//     printf("%d\n", a[i]);
-//   }
-
-//   quick_sort(ap, 4, sizeof(int), (compare_fun) compare_int);
-
-//   for(int i = 0; i < 4; i++)
-//   {
-//     printf("%d\n", a[i]);
-//   }
-//   return 0;
-// }

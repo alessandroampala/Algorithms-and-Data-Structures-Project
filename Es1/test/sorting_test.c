@@ -8,7 +8,7 @@ int compare_int(int* obj1, int* obj2)
   return *obj1 - *obj2;
 }
 
-int getInt(void** obj, int pos)
+int get_int(void** obj, int pos)
 {
   return *(int*)obj[pos];
 }
@@ -22,9 +22,9 @@ void** create_obj_empty()
 void** create_obj_length_one()
 {
   int* element = malloc(sizeof(int));
-  element[0] = 13;
+  *element = 13;
   void** p = malloc(sizeof(void**));
-  p[0] = &element[0];
+  *p = element;
   return p;
 }
 
@@ -39,10 +39,8 @@ void** create_obj()
   a[5] = 11;
   void ** p = malloc(sizeof(void*) *6);
   for(int i = 0; i < 6; i++)
-  {
     p[i] = &a[i];
-    //printf("%d\n", *((int*)p[i]));
-  }
+
   return p;
 }
 
@@ -57,10 +55,8 @@ void** create_obj_ordered_asc()
   a[5] = 6;
   void ** p = malloc(sizeof(void*) *6);
   for(int i = 0; i < 6; i++)
-  {
     p[i] = &a[i];
-    //printf("%d\n", *((int*)p[i]));
-  }
+
   return p;
 }
 
@@ -75,18 +71,29 @@ void** create_obj_ordered_desc()
   a[5] = 1;
   void ** p = malloc(sizeof(void*) *6);
   for(int i = 0; i < 6; i++)
-  {
     p[i] = &a[i];
-    //printf("%d\n", *((int*)p[i]));
+
+  return p;
+}
+
+void** create_obj_uniform()
+{
+  int* a = malloc(sizeof(int) * 6);
+  void** p = malloc(sizeof(void*) * 6);
+  for (int i = 0; i < 6; i++)
+  {
+    a[i] = 5;
+    p[i] = &a[i];
   }
+
   return p;
 }
 
 void delete_test_obj(void** a)
 {
-  if(a!= NULL){
+  if(a!= NULL)
     free(*a);
-  }
+  free(a);
 }
 
 void insertion_sort_test()
@@ -103,40 +110,51 @@ void insertion_sort_test()
   // TEST ONE SIZED ARRAY
   a = create_obj_length_one();
   SORT(a, 1);
-  TEST_ASSERT_EQUAL_INT(13, getInt(a, 0));
+  TEST_ASSERT_EQUAL_INT(13, get_int(a, 0));
   delete_test_obj(a);
   
   // TEST ORDERED ASC
   a = create_obj_ordered_asc();
   SORT(a, 6);
-  TEST_ASSERT_EQUAL_INT(1, getInt(a, 0));
-  TEST_ASSERT_EQUAL_INT(2, getInt(a, 1));
-  TEST_ASSERT_EQUAL_INT(3, getInt(a, 2));
-  TEST_ASSERT_EQUAL_INT(4, getInt(a, 3));
-  TEST_ASSERT_EQUAL_INT(5, getInt(a, 4));
-  TEST_ASSERT_EQUAL_INT(6, getInt(a, 5));
+  TEST_ASSERT_EQUAL_INT(1, get_int(a, 0));
+  TEST_ASSERT_EQUAL_INT(2, get_int(a, 1));
+  TEST_ASSERT_EQUAL_INT(3, get_int(a, 2));
+  TEST_ASSERT_EQUAL_INT(4, get_int(a, 3));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 4));
+  TEST_ASSERT_EQUAL_INT(6, get_int(a, 5));
   delete_test_obj(a);
 
   // TEST ORDERED DESC
   a = create_obj_ordered_desc();
   SORT(a, 6);
-  TEST_ASSERT_EQUAL_INT(1, getInt(a, 0));
-  TEST_ASSERT_EQUAL_INT(2, getInt(a, 1));
-  TEST_ASSERT_EQUAL_INT(3, getInt(a, 2));
-  TEST_ASSERT_EQUAL_INT(4, getInt(a, 3));
-  TEST_ASSERT_EQUAL_INT(5, getInt(a, 4));
-  TEST_ASSERT_EQUAL_INT(6, getInt(a, 5));
+  TEST_ASSERT_EQUAL_INT(1, get_int(a, 0));
+  TEST_ASSERT_EQUAL_INT(2, get_int(a, 1));
+  TEST_ASSERT_EQUAL_INT(3, get_int(a, 2));
+  TEST_ASSERT_EQUAL_INT(4, get_int(a, 3));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 4));
+  TEST_ASSERT_EQUAL_INT(6, get_int(a, 5));
+  delete_test_obj(a);
+
+  // TEST UNIFORM CASE
+  a = create_obj_uniform();
+  SORT(a, 6);
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 0));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 1));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 2));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 3));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 4));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 5));
   delete_test_obj(a);
 
   // TEST NORMAL CASE
   a = create_obj();
   SORT(a, 6);
-  TEST_ASSERT_EQUAL_INT(0, getInt(a, 0));
-  TEST_ASSERT_EQUAL_INT(3, getInt(a, 1));
-  TEST_ASSERT_EQUAL_INT(5, getInt(a, 2));
-  TEST_ASSERT_EQUAL_INT(11, getInt(a, 3));
-  TEST_ASSERT_EQUAL_INT(15, getInt(a, 4));
-  TEST_ASSERT_EQUAL_INT(18, getInt(a, 5));
+  TEST_ASSERT_EQUAL_INT(0, get_int(a, 0));
+  TEST_ASSERT_EQUAL_INT(3, get_int(a, 1));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 2));
+  TEST_ASSERT_EQUAL_INT(11, get_int(a, 3));
+  TEST_ASSERT_EQUAL_INT(15, get_int(a, 4));
+  TEST_ASSERT_EQUAL_INT(18, get_int(a, 5));
   delete_test_obj(a);
 
   #undef SORT
@@ -156,40 +174,51 @@ void quick_sort_test()
   // TEST ONE SIZED ARRAY
   a = create_obj_length_one();
   SORT(a, 1);
-  TEST_ASSERT_EQUAL_INT(13, getInt(a, 0));
+  TEST_ASSERT_EQUAL_INT(13, get_int(a, 0));
   delete_test_obj(a);
   
   // TEST ORDERED ASC
   a = create_obj_ordered_asc();
   SORT(a, 6);
-  TEST_ASSERT_EQUAL_INT(1, getInt(a, 0));
-  TEST_ASSERT_EQUAL_INT(2, getInt(a, 1));
-  TEST_ASSERT_EQUAL_INT(3, getInt(a, 2));
-  TEST_ASSERT_EQUAL_INT(4, getInt(a, 3));
-  TEST_ASSERT_EQUAL_INT(5, getInt(a, 4));
-  TEST_ASSERT_EQUAL_INT(6, getInt(a, 5));
+  TEST_ASSERT_EQUAL_INT(1, get_int(a, 0));
+  TEST_ASSERT_EQUAL_INT(2, get_int(a, 1));
+  TEST_ASSERT_EQUAL_INT(3, get_int(a, 2));
+  TEST_ASSERT_EQUAL_INT(4, get_int(a, 3));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 4));
+  TEST_ASSERT_EQUAL_INT(6, get_int(a, 5));
   delete_test_obj(a);
 
   // TEST ORDERED DESC
   a = create_obj_ordered_desc();
   SORT(a, 6);
-  TEST_ASSERT_EQUAL_INT(1, getInt(a, 0));
-  TEST_ASSERT_EQUAL_INT(2, getInt(a, 1));
-  TEST_ASSERT_EQUAL_INT(3, getInt(a, 2));
-  TEST_ASSERT_EQUAL_INT(4, getInt(a, 3));
-  TEST_ASSERT_EQUAL_INT(5, getInt(a, 4));
-  TEST_ASSERT_EQUAL_INT(6, getInt(a, 5));
+  TEST_ASSERT_EQUAL_INT(1, get_int(a, 0));
+  TEST_ASSERT_EQUAL_INT(2, get_int(a, 1));
+  TEST_ASSERT_EQUAL_INT(3, get_int(a, 2));
+  TEST_ASSERT_EQUAL_INT(4, get_int(a, 3));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 4));
+  TEST_ASSERT_EQUAL_INT(6, get_int(a, 5));
+  delete_test_obj(a);
+
+  // TEST UNIFORM CASE
+  a = create_obj_uniform();
+  SORT(a, 6);
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 0));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 1));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 2));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 3));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 4));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 5));
   delete_test_obj(a);
 
   // TEST NORMAL CASE
   a = create_obj();
   SORT(a, 6);
-  TEST_ASSERT_EQUAL_INT(0, getInt(a, 0));
-  TEST_ASSERT_EQUAL_INT(3, getInt(a, 1));
-  TEST_ASSERT_EQUAL_INT(5, getInt(a, 2));
-  TEST_ASSERT_EQUAL_INT(11, getInt(a, 3));
-  TEST_ASSERT_EQUAL_INT(15, getInt(a, 4));
-  TEST_ASSERT_EQUAL_INT(18, getInt(a, 5));
+  TEST_ASSERT_EQUAL_INT(0, get_int(a, 0));
+  TEST_ASSERT_EQUAL_INT(3, get_int(a, 1));
+  TEST_ASSERT_EQUAL_INT(5, get_int(a, 2));
+  TEST_ASSERT_EQUAL_INT(11, get_int(a, 3));
+  TEST_ASSERT_EQUAL_INT(15, get_int(a, 4));
+  TEST_ASSERT_EQUAL_INT(18, get_int(a, 5));
   delete_test_obj(a);
   
   #undef SORT
@@ -198,17 +227,6 @@ void quick_sort_test()
 int main()
 {
   UNITY_BEGIN();
-  /*
-  void** a = create_obj();
-  printf("trova il problema %d\n", getInt(a,0));
-  delete_test_obj(a);
-  a = create_obj_ordered_asc();
-  printf("trova il problema %d\n", getInt(a,0));
-  delete_test_obj(a);
-  a = create_obj_length_one();
-  printf("trova il problema %d\n", getInt(a,0));
-  delete_test_obj(a);
-  */
 
   RUN_TEST(insertion_sort_test);
   RUN_TEST(quick_sort_test);
