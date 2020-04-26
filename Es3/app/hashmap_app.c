@@ -16,9 +16,9 @@ int hash(int* a)
   return *a;
 }
 
-int compare_ints(int* a, int* b)
+int compare_ints(const void* a, const void* b)
 {
-  return *a - *b;
+  return *(int*) a - *(int*) b;
 }
 
 HashMap* load_data_HashMap(char const* filename, Record** elements)
@@ -92,12 +92,17 @@ Record* load_data_array(char const* filename, Record elements[])
   return elements;
 }
 
-
-
-void update_time(time_t* rawtime, struct tm ** timeinfo)
+struct timespec diff(struct timespec start, struct timespec end)
 {
-  time(rawtime);
-  *timeinfo = localtime(rawtime);
+  struct timespec temp;
+  if ((end.tv_nsec-start.tv_nsec)<0) {
+    temp.tv_sec = end.tv_sec-start.tv_sec-1;
+    temp.tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+  } else {
+    temp.tv_sec = end.tv_sec-start.tv_sec;
+    temp.tv_nsec = end.tv_nsec-start.tv_nsec;
+  }
+  return temp;
 }
 
 Record array[SIZE];
@@ -107,7 +112,7 @@ int main(int argc, char const *argv[])
 {
   HashMap* map;
   Record* map_elements = NULL;
-  time_t rawtime_before, rawtime_after;
+  struct timespec start, end;
 
   if(argc != 2)
   {
@@ -116,13 +121,14 @@ int main(int argc, char const *argv[])
   }
   
   //LOAD HASHMAP
-  time(&rawtime_before);
+  clock_gettime(CLOCK_MONOTONIC_RAW, &start);
   map = load_data_HashMap(argv[1], &map_elements);
-  time(&rawtime_after);
-  printf("map loaded in %d seconds\n", (int) difftime(rawtime_after, rawtime_before));
+  clock_gettime(CLOCK_MONOTONIC_RAW, &end);
+  start = diff(start, end);
+  printf("HashMap loaded in %ld.%ld seconds\n", start.tv_sec, start.tv_nsec / 10000000);
 
   //LOAD SORTED ARRAY
-  time(&rawtime_before);
+  clock_gettime(CLOCK_MONOTONIC_RAW, &start);
   load_data_array(argv[1], array);
   void** ap = malloc(sizeof(void*) * SIZE);
   for(int i = 0; i < SIZE; i++)
@@ -130,27 +136,44 @@ int main(int argc, char const *argv[])
     ap[i] = &(array[i]);
   }
   quick_sort(ap, SIZE, sizeof(Record), (compare_fun) compare_ints);
-  time(&rawtime_after);
-  printf("array loaded and sorted in %d seconds\n", (int) difftime(rawtime_after, rawtime_before));
+  clock_gettime(CLOCK_MONOTONIC_RAW, &end);
+  start = diff(start, end);
+  printf("array loaded and sorted in %ld.%ld seconds\n", start.tv_sec, start.tv_nsec / 10000000);
+  free(ap);
 
+  //PICK RANDOM KEYS
   srand(time(0));
   for (int i = 0; i < 10000000; ++i)
     keys[i] = rand() % 10000000;
 
-  //PICK RANDOM KEYS FROM HASHMAP
-  int picked_keys_hashmap = 0;
-  time(&rawtime_before);
+  //RETRIEVE KEYS FROM HASHMAP
+  int retrieved_keys_hashmap = 0;
+  clock_gettime(CLOCK_MONOTONIC_RAW, &start);
   for (int i = 0; i < 10000000; ++i)
   {
-    if(HashMap_get(map, &(keys[i])) == NULL)
-      picked_keys_hashmap++;
+    if(HashMap_get(map, &(keys[i])) != NULL)
+      retrieved_keys_hashmap++;
   }
-  time(&rawtime_after);
-  printf("%d keys picked from HashMap in %d seconds\n", picked_keys_hashmap, (int) difftime(rawtime_after, rawtime_before));
+  clock_gettime(CLOCK_MONOTONIC_RAW, &end);
+  start = diff(start, end);
+  printf("%d keys retrieved from HashMap in %ld.%ld seconds\n", retrieved_keys_hashmap, start.tv_sec, start.tv_nsec / 10000000);
 
+  //RETRIEVE KEYS FROM SORTED ARRAY
+  int retrieved_keys_array = 0;
+  clock_gettime(CLOCK_MONOTONIC_RAW, &start);
+  for (int i = 0; i < 10000000; ++i)
+  {
+    if(bsearch(&keys[i], array, SIZE, sizeof(Record), compare_ints) != NULL)
+      retrieved_keys_array++;
+  }
+  clock_gettime(CLOCK_MONOTONIC_RAW, &end);
+  start = diff(start, end);
+  printf("%d keys retrieved from array in %ld.%ld seconds\n", retrieved_keys_array, start.tv_sec, start.tv_nsec / 10000000);
 
-
-
+  if(retrieved_keys_hashmap == retrieved_keys_array)
+    printf("Number of retrieved keys is the same!\n");
+  else
+    printf("ERROR: Number of retrieved keys is NOT the same\n");
 
   free(map_elements);
   HashMap_destroy(map);
