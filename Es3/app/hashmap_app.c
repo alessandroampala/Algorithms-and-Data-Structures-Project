@@ -105,6 +105,12 @@ struct timespec diff(struct timespec start, struct timespec end)
   return temp;
 }
 
+void print_usage()
+{
+    printf("\nUSAGE:\n");
+    printf("app <filename>\n");
+}
+
 Record array[SIZE];
 int keys[10000000];
 
@@ -117,6 +123,7 @@ int main(int argc, char const *argv[])
   if(argc != 2)
   {
     printf("Argument error\n");
+    print_usage();
     exit(EXIT_FAILURE);
   }
   
