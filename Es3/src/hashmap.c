@@ -2,7 +2,7 @@
 #include <string.h>
 #include "hashmap.h"
 
-#define INITIAL_CAPACITY 128
+#define INITIAL_CAPACITY 64
 #define DEFAULT_LOAD_FACTOR 0.75
 
 typedef struct HashMapElement
@@ -48,7 +48,7 @@ HashMap* HashMap_create(int initial_capacity, float load_factor, hashing_fun fun
   hm->elements = malloc(sizeof(HashMapElement*) * hm->capacity);
   for (int i = 0; i < hm->capacity; i++)
     hm->elements[i] = NULL;
-  hm->load_factor = (load_factor > 0 && load_factor < 1) ? load_factor : DEFAULT_LOAD_FACTOR;
+  hm->load_factor = (load_factor > 0 && load_factor <= 1) ? load_factor : DEFAULT_LOAD_FACTOR;
   hm->threshold = threshold(hm->capacity, hm->load_factor);
   hm->size = 0;
   return hm;
