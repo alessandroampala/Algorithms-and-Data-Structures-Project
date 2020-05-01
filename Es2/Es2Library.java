@@ -1,16 +1,4 @@
 public class Es2Library{
-	
-	/*
-	 * return the minimum number between three numbers.
-	 */
-	public static int min(int obj1, int obj2, int obj3){
-		int m = obj1;
-		if(m > obj2)
-			m = obj2;
-		if(m > obj3)
-			m = obj3;
-		return m;
-	}
 
 	/*
 	 * return the edit distance beetwen two strings
@@ -53,7 +41,7 @@ public class Es2Library{
 	 * a previous call and, eventually, return immediately this value as result. This process
 	 * make the algorithm more efficient avoiding repetitive recursive calls.
 	 */
-	public static int dyEd(String s1, String s2, int[][] nopeTab, int[][] cancTab, int[][] insTab){
+	private static int dyEd(String s1, String s2, int[][] nopeTab, int[][] cancTab, int[][] insTab){
 		if(s1.length() == 0)
 			return s2.length();
 		else if(s2.length() == 0)
@@ -71,6 +59,18 @@ public class Es2Library{
 				insTab[s1.length()][s2.length()] = 1 + dyEd(s1.substring(1), s2, nopeTab, cancTab, insTab);	
 		}
 		return min(nopeTab[s1.length()][s2.length()], cancTab[s1.length()][s2.length()], insTab[s1.length()][s2.length()]);
+	}
+
+	/*
+	 * return the minimum number between three numbers.
+	 */
+	private static int min(int obj1, int obj2, int obj3){
+		int m = obj1;
+		if(m > obj2)
+			m = obj2;
+		if(m > obj3)
+			m = obj3;
+		return m;
 	}
 
 }
