@@ -1,0 +1,336 @@
+Minimum edit_distance for = Quando is 2
+List of word:
+ando
+quando
+usando
+
+
+Minimum edit_distance for = avevo is 0
+List of word:
+avevo
+
+
+Minimum edit_distance for = cinqve is 2
+List of word:
+cinque
+cive
+
+
+Minimum edit_distance for = anni, is 1
+List of word:
+anni
+
+
+Minimum edit_distance for = mia is 0
+List of word:
+mia
+
+
+Minimum edit_distance for = made is 0
+List of word:
+made
+
+
+Minimum edit_distance for = mi is 0
+List of word:
+mi
+
+
+Minimum edit_distance for = perpeteva is 3
+List of word:
+erpete
+permetteva
+perpendeva
+perpetra
+perpetrava
+perpetrera
+perpetua
+perpetuava
+perpetue
+perpetuera
+repeteva
+ripeteva
+
+
+Minimum edit_distance for = sempre is 0
+List of word:
+sempre
+
+
+Minimum edit_distance for = che is 0
+List of word:
+che
+
+
+Minimum edit_distance for = la is 0
+List of word:
+la
+
+
+Minimum edit_distance for = felicita is 0
+List of word:
+felicita
+
+
+Minimum edit_distance for = e is 0
+List of word:
+e
+
+
+Minimum edit_distance for = la is 0
+List of word:
+la
+
+
+Minimum edit_distance for = chiave is 0
+List of word:
+chiave
+
+
+Minimum edit_distance for = della is 0
+List of word:
+della
+
+
+Minimum edit_distance for = vita. is 1
+List of word:
+vita
+
+
+Minimum edit_distance for = Quando is 2
+List of word:
+ando
+quando
+usando
+
+
+Minimum edit_distance for = andai is 0
+List of word:
+andai
+
+
+Minimum edit_distance for = a is 0
+List of word:
+a
+
+
+Minimum edit_distance for = squola is 1
+List of word:
+suola
+
+
+Minimum edit_distance for = mi is 0
+List of word:
+mi
+
+
+Minimum edit_distance for = domandrono is 1
+List of word:
+domandarono
+
+
+Minimum edit_distance for = come is 0
+List of word:
+come
+
+
+Minimum edit_distance for = vuolessi is 1
+List of word:
+volessi
+
+
+Minimum edit_distance for = essere is 0
+List of word:
+essere
+
+
+Minimum edit_distance for = da is 0
+List of word:
+da
+
+
+Minimum edit_distance for = grande. is 1
+List of word:
+grande
+
+
+Minimum edit_distance for = Io is 2
+List of word:
+bo
+co
+do
+eo
+fo
+go
+ho
+io
+ko
+lo
+mo
+no
+oc
+od
+oe
+oh
+oi
+ok
+on
+or
+po
+ro
+so
+to
+vo
+
+
+Minimum edit_distance for = scrissi: is 1
+List of word:
+scrissi
+
+
+Minimum edit_distance for = selice. is 1
+List of word:
+selice
+
+
+Minimum edit_distance for = Mi is 2
+List of word:
+ai
+bi
+ci
+di
+ei
+fi
+gi
+hi
+id
+ih
+il
+in
+io
+li
+mi
+ni
+oi
+pi
+si
+ti
+vi
+xi
+zi
+
+
+Minimum edit_distance for = dissero is 0
+List of word:
+dissero
+
+
+Minimum edit_distance for = che is 0
+List of word:
+che
+
+
+Minimum edit_distance for = non is 0
+List of word:
+non
+
+
+Minimum edit_distance for = avevo is 0
+List of word:
+avevo
+
+
+Minimum edit_distance for = capito is 0
+List of word:
+capito
+
+
+Minimum edit_distance for = il is 0
+List of word:
+il
+
+
+Minimum edit_distance for = corpito, is 3
+List of word:
+carpito
+clorito
+coito
+colpito
+compito
+copiato
+copio
+copto
+corio
+corpi
+corpino
+corpo
+corto
+covrito
+crepito
+scorpio
+
+
+Minimum edit_distance for = e is 0
+List of word:
+e
+
+
+Minimum edit_distance for = io is 0
+List of word:
+io
+
+
+Minimum edit_distance for = dissi is 0
+List of word:
+dissi
+
+
+Minimum edit_distance for = loro is 0
+List of word:
+loro
+
+
+Minimum edit_distance for = che is 0
+List of word:
+che
+
+
+Minimum edit_distance for = non is 0
+List of word:
+non
+
+
+Minimum edit_distance for = avevano is 0
+List of word:
+avevano
+
+
+Minimum edit_distance for = capito is 0
+List of word:
+capito
+
+
+Minimum edit_distance for = la is 0
+List of word:
+la
+
+
+Minimum edit_distance for = wita. is 3
+List of word:
+aita
+cita
+dita
+gita
+iota
+irta
+ista
+iuta
+lita
+pita
+sita
+ta
+vita
+witz
+zita
+
+

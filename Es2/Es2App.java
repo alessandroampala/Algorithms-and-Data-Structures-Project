@@ -9,7 +9,7 @@ public class Es2App{
 		Scanner wordList = openFile(path2);
 
 		ArrayList<String> dictionary = getDictionary(wordList);
-		dictionary.close();
+		wordList.close();
 
 		findDistance(correct, dictionary);
 		correct.close();
@@ -39,7 +39,7 @@ public class Es2App{
 		}
 	} 
 
-	public static void scrollDictionary(String target, ArrayList obj)
+	public static void scrollDictionary(String target, ArrayList dictionary)
 	{
 		int minDistance = Integer.MAX_VALUE, result = Integer.MAX_VALUE;
 		ArrayList<String> wordList = new ArrayList<String>(30);
@@ -63,8 +63,7 @@ public class Es2App{
 					System.exit(0);
 				}
 			}
-			else
-				//Do nothing
+			else{ /*Do nothing*/ }
 		}
 		stampResult(target,minDistance, wordList);
 	}
