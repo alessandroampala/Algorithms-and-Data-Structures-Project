@@ -27,7 +27,33 @@ public class Es2App{
 	} 
 
 	public static void scrollDictionary(String target, ArrayList obj){
-		
+		int minDistance = Integer.MAX_VALUE, result = Integer.MAX_VALUE;
+		ArrayList<String> wordList = new ArrayList<String>(30);
+		for(int i = 0; i < dictionary.size(); i++){
+			String obj = (String)dictionary.get(i); 
+			if((result = Es2Library.editDistanceDyn(target, obj)) < minDistance){
+				minDistance = result;
+				wordList = new ArrayList<String>(30);
+			}else if(result == minDistance){
+				if(!(wordList.add(obj))){
+					System.out.println("ERROR: insertion failed");
+					System.exit(0);
+				}
+			}
+			else{
+				//Do nothing
+			}
+		}
+		stampResult(target,minDistance, wordList);
+	}
+
+	public static void stampResult(String target, int dist, ArrayList list){
+		int length = list.size();
+		System.out.println("Minimum edit_distance for = "+target+" is "+dist+"\nList of word:");
+		for(int i = 0; i < list.size(); i++){
+			System.out.println(list.get(i));
+		}
+		System.out.println("\n");
 	}
 
 	public static Scanner openFile(String path){
