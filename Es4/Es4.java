@@ -1,5 +1,4 @@
-import sun.security.provider.certpath.AdjacencyList;
-
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -31,17 +30,17 @@ public class Es4 {
     {
       Integer num;
       Node<Integer> first, second;
-      System.out.println(graph.nodes.size());
+      //System.out.println(graph.nodes.size());
 
       num = input.nextInt();
-      if(num >= graph.size() || (first = graph.get(num - 1)) == null)
+      if((first = graph.get(num)) == null)
       {
-        first = graph.add(num, num - 1);
+        first = graph.add(num);
       }
 
       num = input.nextInt();
-      if(num >= graph.size() || (second = graph.get(num - 1)) == null)
-        second = graph.add(num, num - 1);
+      if((second = graph.get(num)) == null)
+        second = graph.add(num);
 
       num = input.nextInt();
       first.addAdjacency(second, num);
@@ -52,8 +51,8 @@ public class Es4 {
     Integer queryNumber = input.nextInt();
     for(int i = 0; i < queryNumber; i++)
     {
-      Node node1 = graph.get(input.nextInt() - 1);
-      Node node2 = graph.get(input.nextInt() - 1);
+      Node node1 = graph.get(input.nextInt());
+      Node node2 = graph.get(input.nextInt());
       int weight = input.nextInt();
       queries.add(new Query(node1, node2, weight));
     }
@@ -66,7 +65,7 @@ public class Es4 {
     ArrayList<Query> queries = new ArrayList<>();
     loadFile(openFile(args[0]), graph, queries);
 
-    System.out.println("Graph");
+    /*System.out.println("Graph");
     System.out.println(graph);
 
     System.out.println("Queries");
@@ -74,22 +73,24 @@ public class Es4 {
     while(it.hasNext())
     {
       System.out.println(it.next());
-    }
+    }*/
   }
+
+
 }
 
 class Graph<T> {
-  ArrayList<Node<T>> nodes;
+  HashMap<T, Node<T>> nodes;
 
   public void setNodesNumber(int nodesNumber)
   {
-    nodes = new ArrayList<>(100000);
+    nodes = new HashMap<>(100000);
   }
 
-  public Node<T> add(T data, int position)
+  public Node<T> add(T data)
   {
     Node<T> node = new Node<>(data);
-    nodes.add(position, node);
+    nodes.put(data, node);
     return node;
   }
 
@@ -107,7 +108,7 @@ class Graph<T> {
   public String toString()
   {
     String result = "";
-    Iterator<Node<T>> it = nodes.iterator();
+    Iterator<Node<T>> it = nodes.values().iterator();
     while(it.hasNext())
     {
       result += it.next().toString();
