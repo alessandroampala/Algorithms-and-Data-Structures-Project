@@ -1,7 +1,4 @@
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -64,7 +61,7 @@ public class Es4 {
     Graph<Integer> graph = new Graph<>();
     ArrayList<Query> queries = new ArrayList<>();
     loadFile(openFile(args[0]), graph, queries);
-
+    
     /*System.out.println("Graph");
     System.out.println(graph);
 
@@ -74,6 +71,10 @@ public class Es4 {
     {
       System.out.println(it.next());
     }*/
+
+    for(Query q : queries)
+      q.execute(graph);
+     // System.out.println(q.execute(graph));
   }
 
 
@@ -104,6 +105,42 @@ class Graph<T> {
     return nodes.get(position);
   }
 
+  ArrayList<Integer> bfs(Node<T> start, Node<T> end)
+  {
+    Queue<Node<T>> queue = new LinkedList<>();
+    queue.add(start);
+    start.visited = true;
+
+    while(!queue.isEmpty())
+    {
+      Node<T> current = queue.poll();
+
+      if(current == end)
+        break;
+
+      for (Adjacent<T> adj: current.adjacency)
+      {
+        if(!adj.node.visited)
+        {
+          queue.add(adj.node);
+          adj.node.visited = true;
+          adj.node.parent = current;
+          adj.node.parentAdjWeight = adj.weight;
+        }
+      }
+    }
+
+    if(end.parent == null) return null;
+    ArrayList<Integer> pathWeights = new ArrayList<>();
+    Node<T> n = end;
+    while(n.parent != null)
+    {
+      pathWeights.add(n.parentAdjWeight);
+      n = n.parent;
+    }
+    return pathWeights;
+  }
+
   @Override
   public String toString()
   {
@@ -119,13 +156,19 @@ class Graph<T> {
 
 class Node<T> {
   public T data;
-  ArrayList<Adjacent<T>> adjacency;
+  public ArrayList<Adjacent<T>> adjacency;
   ArrayList<Node<T>> reachable;
+  public boolean visited;
+  Node<T> parent;
+  int parentAdjWeight;
 
   public Node(T data)
   {
     this.data = data;
     adjacency = new ArrayList<>();
+    visited = false;
+    parent = null;
+    parentAdjWeight = -1;
   }
 
   public void addAdjacency(Node<T> node, int weight)
@@ -172,6 +215,18 @@ class Query {
     this.node1 = node1;
     this.node2 = node2;
     this.weigth = weigth;
+  }
+
+  String execute(Graph graph)
+  {
+    ArrayList<Integer> result = graph.bfs(node1, node2);
+    if(result == null) return "NO";
+    for(Integer num : result)
+    {
+      if(num > weigth)
+        return "YES";
+    }
+    return "NO";
   }
 
   @Override
