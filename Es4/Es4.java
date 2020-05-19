@@ -61,20 +61,17 @@ public class Es4 {
     Graph<Integer> graph = new Graph<>();
     ArrayList<Query> queries = new ArrayList<>();
     loadFile(openFile(args[0]), graph, queries);
-    
-    /*System.out.println("Graph");
-    System.out.println(graph);
-
-    System.out.println("Queries");
-    Iterator<Query> it = queries.iterator();
-    while(it.hasNext())
-    {
-      System.out.println(it.next());
-    }*/
+    //graph.dfs(graph.get(1), 0, null);
+    graph.dfs(graph.get(1), new Stack<>());
+    System.out.println("dfs completed");
 
     for(Query q : queries)
-      q.execute(graph);
-     // System.out.println(q.execute(graph));
+    {
+        //System.out.println(q.execute(graph));
+        q.execute(graph);
+    }
+
+
   }
 
 
@@ -105,42 +102,43 @@ class Graph<T> {
     return nodes.get(position);
   }
 
-  ArrayList<Integer> bfs(Node<T> start, Node<T> end)
+/*  public void dfs(Node<T> start, int level, Adjacent<T> parent)
   {
-    Queue<Node<T>> queue = new LinkedList<>();
-    queue.add(start);
     start.visited = true;
+    start.level = level;
+    start.parent = parent;
 
-    while(!queue.isEmpty())
+    for(Adjacent<T> adj : start.adjacency)
     {
-      Node<T> current = queue.poll();
-
-      if(current == end)
-        break;
-
-      for (Adjacent<T> adj: current.adjacency)
-      {
         if(!adj.node.visited)
         {
-          queue.add(adj.node);
-          adj.node.visited = true;
-          adj.node.parent = current;
-          adj.node.parentAdjWeight = adj.weight;
+            dfs(adj.node, level + 1, new Adjacent<>(start, adj.weight));
         }
+    }
+  }*/
+
+  public void dfs(Node<T> start, Stack<Node<T>> stack)
+  {
+      start.level = 0;
+      start.visited = true;
+      start.parent = null;
+      stack.push(start);
+
+      while(!stack.empty())
+      {
+          Node<T> current = stack.pop();
+          for(Adjacent<T> adj : current.adjacency)
+          {
+              if(!adj.node.visited)
+              {
+                  adj.node.visited = true;
+                  adj.node.level = current.level + 1;
+                  adj.node.parent = new Adjacent<>(current, adj.weight);
+                  stack.push(adj.node);
+              }
+          }
       }
-    }
-
-    if(end.parent == null) return null;
-    ArrayList<Integer> pathWeights = new ArrayList<>();
-    Node<T> n = end;
-    while(n.parent != null)
-    {
-      pathWeights.add(n.parentAdjWeight);
-      n = n.parent;
-    }
-    return pathWeights;
   }
-
   @Override
   public String toString()
   {
@@ -157,10 +155,9 @@ class Graph<T> {
 class Node<T> {
   public T data;
   public ArrayList<Adjacent<T>> adjacency;
-  ArrayList<Node<T>> reachable;
   public boolean visited;
-  Node<T> parent;
-  int parentAdjWeight;
+  Adjacent<T> parent;
+  int level;
 
   public Node(T data)
   {
@@ -168,7 +165,7 @@ class Node<T> {
     adjacency = new ArrayList<>();
     visited = false;
     parent = null;
-    parentAdjWeight = -1;
+    level = -1;
   }
 
   public void addAdjacency(Node<T> node, int weight)
@@ -189,7 +186,7 @@ class Node<T> {
       result += ((adj != null && adj.node != null) ? adj.node.data + ",  " + adj.weight + "." : null);
     }
 
-    result += " reachable=" + reachable + '}';
+    result += '}';
     return result;
   }
 }
@@ -205,28 +202,44 @@ class Adjacent<T> {
   }
 }
 
-class Query {
+class Query<T> {
   Node node1;
   Node node2;
-  int weigth;
+  int weight;
 
-  public Query(Node node1, Node node2, int weigth)
+  public Query(Node node1, Node node2, int weight)
   {
     this.node1 = node1;
     this.node2 = node2;
-    this.weigth = weigth;
+    this.weight = weight;
   }
 
-  String execute(Graph graph)
+  String execute(Graph<T> graph)
   {
-    ArrayList<Integer> result = graph.bfs(node1, node2);
-    if(result == null) return "NO";
-    for(Integer num : result)
-    {
-      if(num > weigth)
-        return "YES";
-    }
-    return "NO";
+      Node<T> n1 = node1;
+      Node<T> n2 = node2;
+      boolean cont = false;
+
+      while(n1 != n2)
+      {
+          while(n1.level > n2.level || cont)
+          {
+              if(n1.parent.weight > this.weight)
+                  return "YES";
+              n1 = n1.parent.node;
+              if(cont)
+                cont = false;
+          }
+          while(n2.level > n1.level)
+          {
+              if(n2.parent.weight > this.weight)
+                  return "YES";
+              n2 = n2.parent.node;
+          }
+          if(n1.level == n2.level)
+              cont = true;
+      }
+      return "NO";
   }
 
   @Override
@@ -234,7 +247,7 @@ class Query {
     return "Query{" +
             "node1=" + node1.data +
             ", node2=" + node2.data +
-            ", weigth=" + weigth +
+            ", weigth=" + weight +
             '}';
   }
 }
