@@ -1,6 +1,8 @@
-import java.util.HashMop;
+import java.util.HashMap;
 
 public class Es2Library{
+
+	/* Normal Version */
 
 	/*
 	 * return the edit distance beetwen two strings
@@ -23,6 +25,8 @@ public class Es2Library{
 
 		return min(dNope, dCanc, dIns);
 	}
+
+	/* Dynamic Version */ 
 
 	/*
 	 * Return the edit distance between two strings.
@@ -63,6 +67,33 @@ public class Es2Library{
 		return min(nopeTab[s1.length()][s2.length()], cancTab[s1.length()][s2.length()], insTab[s1.length()][s2.length()]);
 	}
 
+	/* Dynamic Version using HashMap */
+
+	public static int dynEditDistance(String s1, String s2){
+		HashMap<String, HashMap<String, Integer>> map = new HashMap<String, HashMap<String, Integer>>();
+
+		return dyEd(s1, s2, map);
+	}
+
+	public static int dyEd(String s1, String s2, HashMap<String, HashMap<String, Integer>> map){
+		Integer result;
+		if(s1.length() == 0) return s2.length();
+		else if(s2.length() == 0) return s1.length();
+		else if(map.get(s1) != null && (result = (map.get(s1)).get(s2)) != null)
+			return result;
+		else{
+			if(map.get(s1) != null){
+				(map.get(s1)).put(s2, (result = min(dNope(s1, s2, map), dCanc(s1, s2, map), dIns(s1, s2, map))));
+			}else{
+				HashMap<String, Integer> support = new HashMap<String, Integer>();
+				support.put(s2, (result = min(dNope(s1, s2, map), dCanc(s1, s2, map), dIns(s1, s2, map))));
+				map.put(s1, support);
+			}
+			return result;
+		}
+	}
+
+
 	/*
 	 * return the minimum number between three numbers.
 	 */
@@ -84,5 +115,27 @@ public class Es2Library{
       return s.substring(1);
     else
       return "";
+	}
+
+	private static int dNope(String s1, String s2, HashMap<String, HashMap<String, Integer>> map)
+  {
+    if(s1.charAt(0) == s2.charAt(0))
+      return dyEd(rest(s1), rest(s2), map);
+    else
+      return Integer.MAX_VALUE;
   }
+
+  private static int dCanc(String s1, String s2, HashMap<String, HashMap<String, Integer>> map)
+  {
+    return 1 + dyEd(s1, rest(s2), map);
+  }
+
+  private static int dIns(String s1, String s2, HashMap<String, HashMap<String, Integer>> map)
+  {
+    return 1 + dyEd(rest(s1), s2, map);
+  }
+
+
+
+}
 
