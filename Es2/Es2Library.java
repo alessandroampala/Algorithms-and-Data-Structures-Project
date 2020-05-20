@@ -1,3 +1,5 @@
+import java.util.HashMop;
+
 public class Es2Library{
 
 	/*
@@ -12,11 +14,11 @@ public class Es2Library{
 			return s1.length();
 		else{
 			if(s1.charAt(0) == s2.charAt(0))
-				dNope = editDistance(s1.substring(1), s2.substring(1));
+				dNope = editDistance(rest(s1), rest(s2));
 			else
 				dNope = Integer.MAX_VALUE;
-			dCanc = 1 + editDistance(s1,s2.substring(1));
-			dIns = 1 + editDistance(s1.substring(1), s2);	
+			dCanc = 1 + editDistance(s1, rest(s2));
+			dIns = 1 + editDistance(rest(s1), s2);	
 		}
 
 		return min(dNope, dCanc, dIns);
@@ -49,14 +51,14 @@ public class Es2Library{
 		else{
 			if((nopeTab[s1.length()][s2.length()] == 0)){
 				if(s1.charAt(0) == s2.charAt(0))
-					nopeTab[s1.length()][s2.length()] = dyEd(s1.substring(1), s2.substring(1), nopeTab, cancTab, insTab);
+					nopeTab[s1.length()][s2.length()] = dyEd(rest(s1), rest(s2), nopeTab, cancTab, insTab);
 				else
 					nopeTab[s1.length()][s2.length()] = Integer.MAX_VALUE;
 			}
 			if(cancTab[s1.length()][s2.length()] == 0)
-				cancTab[s1.length()][s2.length()] = 1 + dyEd(s1, s2.substring(1), nopeTab, cancTab, insTab);
+				cancTab[s1.length()][s2.length()] = 1 + dyEd(s1, rest(s2), nopeTab, cancTab, insTab);
 			if(insTab[s1.length()][s2.length()] == 0)
-				insTab[s1.length()][s2.length()] = 1 + dyEd(s1.substring(1), s2, nopeTab, cancTab, insTab);	
+				insTab[s1.length()][s2.length()] = 1 + dyEd(rest(s1), s2, nopeTab, cancTab, insTab);	
 		}
 		return min(nopeTab[s1.length()][s2.length()], cancTab[s1.length()][s2.length()], insTab[s1.length()][s2.length()]);
 	}
@@ -73,4 +75,14 @@ public class Es2Library{
 		return m;
 	}
 
-}
+	/*
+	 * return the substring s* with length s - 1
+	 */
+  private static String rest(String s)
+  {
+    if(s.length() > 1)
+      return s.substring(1);
+    else
+      return "";
+  }
+
