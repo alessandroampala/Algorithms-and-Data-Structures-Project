@@ -12,7 +12,11 @@ typedef struct Node
 {
   Edge* adj; //list terminated by null
   Edge* last;
+  int pos;
   char is_visited;
+  int level;
+  int parent_weight;
+  int parent_pos;
 } Node;
 
 typedef struct Graph

@@ -8,8 +8,12 @@ Graph* create_graph(int size)
 
   for(int i = 0; i < g->size; i++)
   {
+    g->nodes[i].pos = i;
     g->nodes[i].is_visited = 0;
     g->nodes[i].adj = g->nodes[i].last = NULL;
+    g->nodes[i].level = -1;
+    g->nodes[i].parent_weight = -1;
+    g->nodes[i].parent_pos = -1;
   }
 
   return g;
@@ -69,4 +73,32 @@ Graph* create_load_graph()
   }
 
   return g;
+}
+
+void dfs(Graph* g, Stack stack)
+{
+	Node start = get(g, 0);
+	start -> level = 0;
+	start -> visited -> 1;
+	stack_push(stack, start);
+
+	while(!stack_empty(stack))
+	{
+		Node current = stack_pop(stack);
+		Edge* adj = current->adj; 
+		while(adj != NULL){
+			Node visit = g[adj->node]; 
+			if(visit->is_visited == 0)
+			{
+				visit->is_visited = 1;
+				visit->level = current->level +1;
+				visit->parent_weight = adj->weight;
+				visit->parent_pos = current->pos;
+				stack_push(stack, visit);
+			}
+		adj = adj->next;
+		}
+
+ }
+  
 }
