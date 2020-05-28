@@ -1,4 +1,5 @@
 #include "graph.h"
+#include "stack.h"
 
 Graph* create_graph(int size)
 {
@@ -75,30 +76,32 @@ Graph* create_load_graph()
   return g;
 }
 
-void dfs(Graph* g, Stack stack)
+void dfs(Graph* g)
 {
-	Node start = get(g, 0);
-	start -> level = 0;
-	start -> visited -> 1;
-	stack_push(stack, start);
+  Stack* stack = Stack_create();
+  Node* start = get(g, 1);
+  start->level = 0;
+  start->is_visited = 1;
+  Stack_push(stack, start);
 
-	while(!stack_empty(stack))
-	{
-		Node current = stack_pop(stack);
-		Edge* adj = current->adj; 
-		while(adj != NULL){
-			Node visit = g[adj->node]; 
-			if(visit->is_visited == 0)
-			{
-				visit->is_visited = 1;
-				visit->level = current->level +1;
-				visit->parent_weight = adj->weight;
-				visit->parent_pos = current->pos;
-				stack_push(stack, visit);
-			}
-		adj = adj->next;
-		}
-
+  while(!Stack_empty(stack))
+  {
+    Node* current = Stack_pop(stack);
+    Edge* adj = current->adj; 
+    while(adj != NULL)
+    {
+      Node* visit = get(g, adj->node); 
+      if(visit->is_visited == 0)
+      {
+        visit->is_visited = 1;
+        visit->level = current->level +1;
+        visit->parent_weight = adj->weight;
+        visit->parent_pos = current->pos;
+        Stack_push(stack, visit);
+      }
+      adj = adj->next;
+    }
  }
   
+  free(stack);
 }

@@ -29,3 +29,4 @@ Graph* create_graph(int size);
 Node* get(Graph* g, int pos);
 void add_edge(Graph* g, int pos_node1, int pos_node2, int weight);
 Graph* create_load_graph();
+void dfs(Graph* g);
