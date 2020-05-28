@@ -16,6 +16,9 @@ public class Es2App{
 
 	}
 
+	/*
+	 * Copy the dictionary into an array
+	 */
 	public static ArrayList<String> getDictionary(Scanner obj)
 	{
 		ArrayList<String> dictionary = new ArrayList<String>(100);
@@ -30,6 +33,9 @@ public class Es2App{
 		return dictionary;
 	}
 
+	/*
+	 * Check the minimum edit distance word by word
+	 */
 	public static void findDistance(Scanner correct, ArrayList dictionary)
 	{
 		while(correct.hasNext())
@@ -39,6 +45,11 @@ public class Es2App{
 		}
 	} 
 
+	/*
+	 * This method checks the edit distance between a string target and all
+	 * dictionary's words. It goes on until dictionary's over or it finds the
+	 * target word in dictionary
+	 */
 	public static void scrollDictionary(String target, ArrayList dictionary)
 	{
 		int minDistance = Integer.MAX_VALUE, result = Integer.MAX_VALUE;
@@ -68,7 +79,9 @@ public class Es2App{
 		stampResult(target,minDistance, wordList);
 	}
 
-
+	/*
+	 * Stamp the words list which have the minimum edit distance for string target
+	 */
 	public static void stampResult(String target, int dist, ArrayList list)
 	{
 		int length = list.size();
@@ -80,6 +93,9 @@ public class Es2App{
 		System.out.println("\n");
 	}
 
+	/*
+	 * Open a file
+	 */
 	public static Scanner openFile(String path)
 	{
 		Scanner input = null;
@@ -93,6 +109,9 @@ public class Es2App{
 		return input;
 	}
 
+	/*
+	 * Get the next word in a file
+	 */
 	public static String getWord(Scanner obj)
 	{
 		if(obj.hasNext())
