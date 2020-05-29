@@ -1,3 +1,4 @@
+#pragma once
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -30,3 +31,4 @@ Node* get(Graph* g, int pos);
 void add_edge(Graph* g, int pos_node1, int pos_node2, int weight);
 Graph* create_load_graph();
 void dfs(Graph* g);
+void print_graph(Graph* g);

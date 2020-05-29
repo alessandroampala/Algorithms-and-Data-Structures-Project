@@ -67,10 +67,10 @@ Graph* create_load_graph()
 
   Graph* g = create_graph(element_number);
 
-  for(int i = 0; i < element_number; i++)
+  for(int i = 1; i < element_number; i++)
   {
     scanf("%d %d %d", &node1, &node2, &weight);
-    add_edge(g, node1, node2, weight);
+    add_edge(g, node1-1, node2-1, weight);
   }
 
   return g;
@@ -79,7 +79,7 @@ Graph* create_load_graph()
 void dfs(Graph* g)
 {
   Stack* stack = Stack_create();
-  Node* start = get(g, 1);
+  Node* start = get(g, 0);
   start->level = 0;
   start->is_visited = 1;
   Stack_push(stack, start);
@@ -104,4 +104,18 @@ void dfs(Graph* g)
  }
   
   free(stack);
+}
+
+void print_graph(Graph* g)
+{
+  for (int i = 0; i < g->size; ++i)
+  {
+    printf("pos %d\n", i);
+    Edge* adj = g->nodes[i].adj;
+    while(adj != NULL)
+    {
+      printf("%d,%d\n", adj->node, adj->weight);
+      adj = adj->next;
+    }
+  }
 }

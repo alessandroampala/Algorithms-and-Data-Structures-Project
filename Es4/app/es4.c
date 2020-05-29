@@ -25,8 +25,8 @@ Query* create_load_queries(int* element_number)
 
 void execute_query(Graph* g, Query* q)
 {
-  Node* node1 = get(g, q->node1);
-  Node* node2 = get(g, q->node2);
+  Node* node1 = get(g, q->node1 - 1);
+  Node* node2 = get(g, q->node2 - 1);
   char cont = 0;
 
   while(node1 != node2)
@@ -34,7 +34,10 @@ void execute_query(Graph* g, Query* q)
     while(node1->level > node2->level || cont)
     {
       if(node1->parent_weight > q->weight)
+      {
         printf("YES\n");
+        return;
+      }
       node1 = get(g, node1->parent_pos);
       if(cont)
         cont = 0;
@@ -43,13 +46,17 @@ void execute_query(Graph* g, Query* q)
     while(node2->level > node1->level)
     {
       if(node2->parent_weight > q->weight)
+      {
         printf("YES\n");
+        return;
+      }
       node2 = get(g, node2->parent_pos);
     }
 
     if(node1->level == node2->level)
       cont = 1;
   }
+  printf("NO\n");
 }
 
 
@@ -59,10 +66,10 @@ int main(int argc, char const **argv)
   int queries_number = 0;
   Query* queries = create_load_queries(&queries_number);
 
-  printf("loaded\n");
+  dfs(g);
 
-  /*for (int i = 0; i < queries_number; ++i)
+  for (int i = 0; i < queries_number; ++i)
   {
     execute_query(g, &(queries[i]));
-  }*/
+  }
 }
