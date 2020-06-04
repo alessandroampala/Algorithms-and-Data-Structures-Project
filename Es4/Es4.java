@@ -4,19 +4,6 @@ import java.io.FileNotFoundException;
 
 public class Es4 {
 
-  public static Scanner openFile(String path)
-  {
-    Scanner input = null;
-    try
-    {
-      input = new Scanner(new File(path));
-    } catch (FileNotFoundException e) {
-      System.out.println("Error in openFile:\npathname "+path);
-      System.exit(0);
-    } 
-    return input;
-  }
-
   public static void loadFile(Scanner input, Graph graph, ArrayList<Query> queries)
   {
     int nodesNumber = input.nextInt();
@@ -27,7 +14,6 @@ public class Es4 {
     {
       int num;
       Node first, second;
-      //System.out.println(graph.nodes.size());
 
       num = input.nextInt();
       if((first = graph.get(num)) == null)
@@ -60,25 +46,11 @@ public class Es4 {
   {
     Graph graph = new Graph();
     ArrayList<Query> queries = new ArrayList<>();
-    loadFile(openFile(args[0]), graph, queries);
+    loadFile(new Scanner(System.in), graph, queries);
     //graph.dfs(graph.get(1), 0, null);
     graph.dfs(graph.get(1), new Stack<>());
 
     for(Query q : queries)
-    {
-        System.out.println(q.execute());
-        //q.execute();
-    }
-  }
-}
-
-class Adjacent {
-  Node node;
-  int weight;
-
-  public Adjacent(Node node, int weight)
-  {
-    this.node = node;
-    this.weight = weight;
+      System.out.println(q.execute());
   }
 }
