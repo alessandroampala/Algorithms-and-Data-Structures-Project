@@ -43,28 +43,3 @@ char Stack_empty(Stack* s)
 {
   return s->head == NULL;
 }
-
-/*int main(int argc, char const *argv[])
-{
-  int* int1 = malloc(sizeof(int));
-  *int1 = 1;
-  int* int2 = malloc(sizeof(int));
-  *int2 = 2;
-  int* int3 = malloc(sizeof(int));
-  *int3 = 3;
-
-  Stack* s = Stack_create();
-  Stack_push(s, int1);
-  Stack_push(s, int2);
-  Stack_push(s, int3);
-
-  printf("%d\n", *(int*) Stack_pop(s));
-  printf("%d\n", *(int*) Stack_pop(s));
-  printf("%d\n", *(int*) Stack_pop(s));
-
-  free(int1);
-  free(int2);
-  free(int3);
-  free(s);
-  return 0;
-}*/
