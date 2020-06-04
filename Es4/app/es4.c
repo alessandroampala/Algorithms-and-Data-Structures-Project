@@ -1,3 +1,7 @@
+/**
+ * USAGE: ./es4 < input.txt > output.txt
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "graph.h"
