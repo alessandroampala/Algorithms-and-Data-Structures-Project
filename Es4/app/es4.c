@@ -29,6 +29,12 @@ Query* create_load_queries(int* element_number)
 
 void execute_query(Graph* g, Query* q)
 {
+  if(q->weight >= g->max_weight)
+  {
+    printf("NO\n");
+    return;
+  }
+
   Node* node1 = get(g, q->node1 - 1);
   Node* node2 = get(g, q->node2 - 1);
   char cont = 0;

@@ -5,6 +5,7 @@ Graph* create_graph(int size)
 {
   Graph* g = malloc(sizeof(Graph));
   g->size = size;
+  g->max_weight = 0;
   g->nodes = malloc(g->size * sizeof(Node));
 
   for(int i = 0; i < g->size; i++)
@@ -90,6 +91,8 @@ void dfs(Graph* g)
     Edge* adj = current->adj; 
     while(adj != NULL)
     {
+      if(adj->weight > g->max_weight)
+        g->max_weight = adj->weight;
       Node* visit = get(g, adj->node); 
       if(visit->is_visited == 0)
       {

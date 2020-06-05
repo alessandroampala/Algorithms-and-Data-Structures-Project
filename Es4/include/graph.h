@@ -24,6 +24,7 @@ typedef struct Graph
 {
   Node* nodes;
   int size;
+  int max_weight;
 } Graph;
 
 /**
