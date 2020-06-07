@@ -3,6 +3,10 @@
 #include <string.h>
 #include "sorting.h"
 
+
+/**
+ * Swap two elements
+ */
 void swap(void* a, void* b, size_t n)
 {
   int* tmp = malloc(n);
@@ -28,6 +32,18 @@ void insertion_sort(void** a, int length, size_t size, compare_fun compare)
   }
 }
 
+/**
+ * Find the correct position of pivot.
+ * @param al          An array of pointers
+ * @param startIndex  First index of a and also the first position of pivot
+ * @param endIndex    Last index of a
+ * @param size        Size of each element pointed
+ * @param compare     Function of type compare_fun
+ * At the end:
+ * - pivot is in a[j]
+ * - all elements between a[startIndex] and a[j-1] are <= than pivot
+ * - all elements between a[j+1] and a[endIndex] are >= than pivot
+ */
 int partition(void** a, int startIndex, int endIndex, size_t size, compare_fun compare)
 {
   int i = startIndex + 1;
@@ -49,6 +65,10 @@ int partition(void** a, int startIndex, int endIndex, size_t size, compare_fun c
   return j;
 }
 
+
+/*
+ * Core method of Quick Sort
+ */
 void _quick_sort(void** a, int startIndex, int endIndex, size_t size, compare_fun compare)
 {
   if(startIndex <= endIndex)

@@ -3,22 +3,34 @@
 #include "unity.h"
 #include "sorting.h"
 
+/*
+ * Compare functions for type int
+ */
 int compare_int(int* obj1, int* obj2)
 {
   return *obj1 - *obj2;
 }
 
+/*
+ * Returns the elements pointed by obj[pos] 
+ */
 int get_int(void** obj, int pos)
 {
   return *(int*)obj[pos];
 }
 
+/*
+ * Create an empty test object
+ */
 void** create_obj_empty()
 {
   void** obj = NULL;
   return obj; 
 }
 
+/*
+ * Create a test object containing one element
+ */
 void** create_obj_length_one()
 {
   int* element = malloc(sizeof(int));
@@ -28,6 +40,9 @@ void** create_obj_length_one()
   return p;
 }
 
+/*
+ * Create a test object
+ */
 void** create_obj()
 {
   int* a = malloc(sizeof(int) * 6);
@@ -44,6 +59,10 @@ void** create_obj()
   return p;
 }
 
+
+/*
+ * Create a test object ascending ordered 
+ */
 void** create_obj_ordered_asc()
 {
   int* a = malloc(sizeof(int) * 6);
@@ -60,6 +79,9 @@ void** create_obj_ordered_asc()
   return p;
 }
 
+/*
+ * Create a test object descending ordered
+ */
 void** create_obj_ordered_desc()
 {
   int* a = malloc(sizeof(int) * 6);
@@ -76,6 +98,9 @@ void** create_obj_ordered_desc()
   return p;
 }
 
+/*
+ * Create a test object containing all elements equal
+ */
 void** create_obj_uniform()
 {
   int* a = malloc(sizeof(int) * 6);
@@ -89,6 +114,9 @@ void** create_obj_uniform()
   return p;
 }
 
+/*
+ * Delete a test object
+ */
 void delete_test_obj(void** a)
 {
   if(a!= NULL)

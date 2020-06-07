@@ -17,16 +17,25 @@ typedef struct RecordArray{
   int length;
 } RecordArray;
 
+/*
+ * Compare function for string (field1)
+ */
 int compare_field1(Record* obj1, Record* obj2)
 {
   return strcmp(obj1->field1, obj2->field1);
 }
 
+/*
+ * Compare function for int (field2)
+ */
 int compare_field2(Record* obj1, Record* obj2)
 {
   return obj1->field2 - obj2->field2;
 }
 
+/*
+ * Compare function for float (field3)
+ */
 int compare_field3(Record* obj1, Record* obj2)
 {
   if(obj1->field3 > obj2->field3)
@@ -37,6 +46,9 @@ int compare_field3(Record* obj1, Record* obj2)
     return -1;
 }
 
+/*
+ * Stamp the instructions to set correctly options 
+ */
 void print_usage()
 {
     printf("\nUSAGE:\n");
@@ -48,6 +60,9 @@ void print_usage()
     printf("    -3: sort according to the third field ascending order\n");
 }
 
+/*
+ * Manage unrecognized options
+ */
 void wrong_options()
 {
   fprintf(stderr, "Unrecognized option\n");
@@ -55,6 +70,9 @@ void wrong_options()
   exit(EXIT_FAILURE);
 }
 
+/*
+ * Choose the algorithm and the field 
+ */
 void get_options(int argc, char* const *argv, char* algorithm, int* field)
 {
   switch(*algorithm = getopt(argc, argv, "qi"))
@@ -82,6 +100,9 @@ void get_options(int argc, char* const *argv, char* algorithm, int* field)
   }
 }
 
+/*
+ * Convert the input file in an array of Record
+ */
 RecordArray load_data(char const* filename)
 {
   FILE* file = fopen(filename, "r");
@@ -133,6 +154,9 @@ RecordArray load_data(char const* filename)
   return ra;
 }
 
+/*
+ * Delete all the elements of a and a itself
+ */
 void free_elements(RecordArray* a)
 {
   for(int i = 0; i < a->length; i++)
